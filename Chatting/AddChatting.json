@@ -35,6 +35,11 @@
             "userId": "000007",
             "profileImage": null,
             "name": "원대호"
+        },
+        {
+            "userId": "000001",
+            "profileImage": "1",
+            "name": "정지윤"
         }
     ]
 }
