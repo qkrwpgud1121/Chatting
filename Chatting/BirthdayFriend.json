@@ -1,0 +1,50 @@
+{
+    "birthdayFriends": [
+        {
+            "favorite": false,
+            "profileImage": "1",
+            "name": "정지윤",
+            "birthDate": "03월 02일"
+        },
+        {
+            "favorite": true,
+            "profileImage": null,
+            "name": "이상운",
+            "birthDate": "09월 09일"
+        },
+        {
+            "favorite": true,
+            "profileImage": "3",
+            "name": "장유진",
+            "birthDate": "12월 30일"
+        },
+        {
+            "favorite": false,
+            "profileImage": "4",
+            "name": "채준관",
+            "birthDate": "03월 10일"
+        }
+    ],
+    "favoriteFriends": [
+        {
+            "favorite": true,
+            "profileImage": "5",
+            "name": "김동준",
+            "status": "Yes"
+        },
+        {
+            "favorite": false,
+            "profileImage": "6",
+            "name": "김태원",
+            "status": "Go"
+        }
+    ],
+    "friends": [
+        {
+            "favorite": true,
+            "profileImage": null,
+            "name": "원대호",
+            "status": ""
+        },
+    ]
+}

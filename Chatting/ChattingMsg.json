@@ -1,0 +1,79 @@
+{
+    "type": "CHANNEL",
+    "sub_type": "MSG_LIST",
+    "data": [
+        {
+            "type": "CHANNEL",
+            "sub_type": "MSG",
+            "data": {
+                "msg": "테스트 확인"
+            },
+            "channel_uid": "ac6af1d4-9853-4e33-a4d1-f4fd0ce494b6",
+            "user_id": "27492",
+            "send_date": 1736918592084,
+            "idx": 6
+        },
+        {
+            "type": "CHANNEL",
+            "sub_type": "MSG",
+            "data": {
+                "files": null,
+                "idx": "",
+                "msg": "나도 테스트"
+            },
+            "send_date": 1736919136502,
+            "idx": 5,
+            "channel_uid": "ac6af1d4-9853-4e33-a4d1-f4fd0ce494b6",
+            "user_id": "27489"
+        },
+        {
+            "type": "CHANNEL",
+            "sub_type": "MSG",
+            "data": {
+                "files": null,
+                "idx": "",
+                "msg": "확인"
+            },
+            "send_date": 1736919136500,
+            "idx": 4,
+            "channel_uid": "ac6af1d4-9853-4e33-a4d1-f4fd0ce494b6",
+            "user_id": "27489"
+        },
+        {
+            "type": "CHANNEL",
+            "sub_type": "MSG",
+            "data": {
+                "msg": "테스트"
+            },
+            "channel_uid": "ac6af1d4-9853-4e33-a4d1-f4fd0ce494b6",
+            "user_id": "27492",
+            "send_date": 1736918592084,
+            "idx": 3
+        },
+        {
+            "type": "CHANNEL",
+            "sub_type": "MSG",
+            "data": {
+                "msg": "채팅"
+            },
+            "channel_uid": "ac6af1d4-9853-4e33-a4d1-f4fd0ce494b6",
+            "user_id": "27492",
+            "send_date": 1736918590700,
+            "idx": 2
+        },
+        {
+            "type": "CHANNEL",
+            "sub_type": "MSG",
+            "data": {
+                "msg": "안녕하세요"
+            },
+            "channel_uid": "ac6af1d4-9853-4e33-a4d1-f4fd0ce494b6",
+            "user_id": "27492",
+            "send_date": 1736918587324,
+            "idx": 1
+        }
+    ],
+    "user_id": "27489",
+    "channel_uid": "ac6af1d4-9853-4e33-a4d1-f4fd0ce494b6",
+    "send_date": 1737074323625
+}

@@ -1,0 +1,40 @@
+
+{
+    "Friends": [
+        {
+            "userId": "000001",
+            "profileImage": "1",
+            "name": "정지윤"
+        },
+        {
+            "userId": "000002",
+            "profileImage": null,
+            "name": "이상운"
+        },
+        {
+            "userId": "000003",
+            "profileImage": "3",
+            "name": "장유진"
+        },
+        {
+            "userId": "000004",
+            "profileImage": "4",
+            "name": "채준관"
+        },
+        {
+            "userId": "000005",
+            "profileImage": "5",
+            "name": "김동준"
+        },
+        {
+            "userId": "000006",
+            "profileImage": "6",
+            "name": "김태원"
+        },
+        {
+            "userId": "000007",
+            "profileImage": null,
+            "name": "원대호"
+        }
+    ]
+}

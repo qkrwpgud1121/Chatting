@@ -1,0 +1,76 @@
+{
+    "chattingList": [
+        {
+            "profileImage": "1",
+            "name": "정지윤",
+            "lastChat": "눈온다",
+            "lastChatTime": "오후 4:08"
+        },
+        {
+            "profileImage": null,
+            "name": "이상운",
+            "lastChat": "ㅎㅎ",
+            "lastChatTime": "오후 3:24"
+        },
+        {
+            "profileImage": "3",
+            "name": "장유진",
+            "lastChat": "ㅎㅇ",
+            "lastChatTime": "오후 1:04"
+        },
+        {
+            "profileImage": "4",
+            "name": "채준관",
+            "lastChat": "ㅇㅇㅇㅇㅇㅇㅇㅇ",
+            "lastChatTime": "오후 11:26"
+        },
+        {
+            "profileImage": "1",
+            "name": "정지윤",
+            "lastChat": "눈온다",
+            "lastChatTime": "오후 4:08"
+        },
+        {
+            "profileImage": null,
+            "name": "이상운",
+            "lastChat": "ㅎㅎ",
+            "lastChatTime": "오후 3:24"
+        },
+        {
+            "profileImage": "3",
+            "name": "장유진",
+            "lastChat": "ㅎㅇ",
+            "lastChatTime": "오후 1:04"
+        },
+        {
+            "profileImage": "4",
+            "name": "채준관",
+            "lastChat": "ㅇㅇㅇㅇㅇㅇㅇㅇ",
+            "lastChatTime": "오후 11:26"
+        },
+        {
+            "profileImage": "1",
+            "name": "정지윤",
+            "lastChat": "눈온다",
+            "lastChatTime": "오후 4:08"
+        },
+        {
+            "profileImage": null,
+            "name": "이상운",
+            "lastChat": "ㅎㅎ",
+            "lastChatTime": "오후 3:24"
+        },
+        {
+            "profileImage": "3",
+            "name": "장유진",
+            "lastChat": "ㅎㅇ",
+            "lastChatTime": "오후 1:04"
+        },
+        {
+            "profileImage": "4",
+            "name": "채준관",
+            "lastChat": "ㅇㅇㅇㅇㅇㅇㅇㅇ",
+            "lastChatTime": "오후 11:26"
+        }
+    ]
+}

@@ -1,0 +1,155 @@
+PODS:
+  - Alamofire (5.9.1)
+  - AppAuth (1.7.6):
+    - AppAuth/Core (= 1.7.6)
+    - AppAuth/ExternalUserAgent (= 1.7.6)
+  - AppAuth/Core (1.7.6)
+  - AppAuth/ExternalUserAgent (1.7.6):
+    - AppAuth/Core
+  - AppCheckCore (11.2.0):
+    - GoogleUtilities/Environment (~> 8.0)
+    - GoogleUtilities/UserDefaults (~> 8.0)
+    - PromisesObjC (~> 2.4)
+  - FlexLayout (2.1.0):
+    - Yoga
+  - GoogleSignIn (8.0.0):
+    - AppAuth (< 2.0, >= 1.7.3)
+    - AppCheckCore (~> 11.0)
+    - GTMAppAuth (< 5.0, >= 4.1.1)
+    - GTMSessionFetcher/Core (~> 3.3)
+  - GoogleUtilities/Environment (8.0.2):
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Logger (8.0.2):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (8.0.2)
+  - GoogleUtilities/UserDefaults (8.0.2):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GTMAppAuth (4.1.1):
+    - AppAuth/Core (~> 1.7)
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3)
+  - GTMSessionFetcher/Core (3.5.0)
+  - KakaoSDK (2.22.7):
+    - KakaoSDKAuth (= 2.22.7)
+    - KakaoSDKCert (= 2.22.7)
+    - KakaoSDKCommon (= 2.22.7)
+    - KakaoSDKFriend (= 2.22.7)
+    - KakaoSDKNavi (= 2.22.7)
+    - KakaoSDKShare (= 2.22.7)
+    - KakaoSDKTalk (= 2.22.7)
+    - KakaoSDKTemplate (= 2.22.7)
+    - KakaoSDKUser (= 2.22.7)
+  - KakaoSDKAuth (2.22.7):
+    - KakaoSDKCommon (= 2.22.7)
+  - KakaoSDKCert (2.22.7):
+    - KakaoSDKCertCore (= 2.22.7)
+    - KakaoSDKUser (= 2.22.7)
+  - KakaoSDKCertCore (2.22.7)
+  - KakaoSDKCommon (2.22.7):
+    - KakaoSDKCommon/Common (= 2.22.7)
+    - KakaoSDKCommon/Network (= 2.22.7)
+  - KakaoSDKCommon/Common (2.22.7)
+  - KakaoSDKCommon/Network (2.22.7):
+    - Alamofire (~> 5.9.0)
+    - KakaoSDKCommon/Common (= 2.22.7)
+  - KakaoSDKFriend (2.22.7):
+    - KakaoSDKFriendCore (= 2.22.7)
+    - KakaoSDKUser (= 2.22.7)
+  - KakaoSDKFriendCore (2.22.7)
+  - KakaoSDKNavi (2.22.7):
+    - KakaoSDKCommon/Common (= 2.22.7)
+  - KakaoSDKShare (2.22.7):
+    - KakaoSDKCommon (= 2.22.7)
+    - KakaoSDKTemplate (= 2.22.7)
+  - KakaoSDKTalk (2.22.7):
+    - KakaoSDKTemplate (= 2.22.7)
+    - KakaoSDKUser (= 2.22.7)
+  - KakaoSDKTemplate (2.22.7):
+    - KakaoSDKCommon/Common (= 2.22.7)
+  - KakaoSDKUser (2.22.7):
+    - KakaoSDKAuth (= 2.22.7)
+  - PinLayout (1.10.5)
+  - PromisesObjC (2.4.0)
+  - RxCocoa (6.8.0):
+    - RxRelay (= 6.8.0)
+    - RxSwift (= 6.8.0)
+  - RxKeyboard (2.0.0):
+    - RxCocoa (~> 6.0)
+    - RxSwift (~> 6.0)
+  - RxRelay (6.8.0):
+    - RxSwift (= 6.8.0)
+  - RxSwift (6.8.0)
+  - Yoga (3.2.1)
+
+DEPENDENCIES:
+  - FlexLayout
+  - GoogleSignIn
+  - KakaoSDK
+  - PinLayout
+  - RxCocoa
+  - RxKeyboard
+  - RxSwift
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - AppAuth
+    - AppCheckCore
+    - FlexLayout
+    - GoogleSignIn
+    - GoogleUtilities
+    - GTMAppAuth
+    - GTMSessionFetcher
+    - KakaoSDK
+    - KakaoSDKAuth
+    - KakaoSDKCert
+    - KakaoSDKCertCore
+    - KakaoSDKCommon
+    - KakaoSDKFriend
+    - KakaoSDKFriendCore
+    - KakaoSDKNavi
+    - KakaoSDKShare
+    - KakaoSDKTalk
+    - KakaoSDKTemplate
+    - KakaoSDKUser
+    - PinLayout
+    - PromisesObjC
+    - RxCocoa
+    - RxKeyboard
+    - RxRelay
+    - RxSwift
+    - Yoga
+
+SPEC CHECKSUMS:
+  Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
+  AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
+  AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
+  FlexLayout: bf58f5dd86c04d32c057542bb6540e328df73a94
+  GoogleSignIn: ce8c89bb9b37fb624b92e7514cc67335d1e277e4
+  GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
+  GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
+  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
+  KakaoSDK: dc4f9062a42e6f7e8e2aacb620a0480996dcb62b
+  KakaoSDKAuth: 45204252ff7c379c0f86c5573f97ec36885afca0
+  KakaoSDKCert: 0e0d2a278731676c566a4bd2da4c0febf1c2d54d
+  KakaoSDKCertCore: 73649497338c420b16b647dba7651855bda21f5c
+  KakaoSDKCommon: 132164a6bac8bcd3a4346d3bf777f34f8f39fdca
+  KakaoSDKFriend: a4ef5e83b8c655b722cf84ec60940a652fb513a9
+  KakaoSDKFriendCore: c2a935a5f6a4bb1dc19d4d7ba692bf2b7c737ca5
+  KakaoSDKNavi: 707e416ffe83b6cf197a964863471e7e6211c593
+  KakaoSDKShare: 01c60c3d5394479429a51ef14ea78d3e72f48af0
+  KakaoSDKTalk: a0c41d014cfda872ea9adae41bcaf7720a002785
+  KakaoSDKTemplate: b11ecf08777198ffafd184201baf93de476ddb84
+  KakaoSDKUser: 4c9cf1da78710d19d0b2c2dd32d1a44c544cdfa4
+  PinLayout: f6c2b63a5a5b24864064e1d15c67de41b4e74748
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
+  RxCocoa: 2d33c1e1e5d66492052ad46b11024ae287572880
+  RxKeyboard: 4f5863f43b4ff0cbb2a20b94688d6b80c8a43c14
+  RxRelay: 335c78b926a2aea8d863a6d25f1ed3b5ad8e8705
+  RxSwift: 4e28be97cbcfeee614af26d83415febbf2bf6f45
+  Yoga: 636ce73bd247407928a7df089f3bc3675916b3ff
+
+PODFILE CHECKSUM: 59805ac49728e0b2b3ee16ceb4a9c3d0c50edcd8
+
+COCOAPODS: 1.16.2
