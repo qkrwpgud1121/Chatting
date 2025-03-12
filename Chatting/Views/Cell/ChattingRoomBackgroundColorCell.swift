@@ -13,9 +13,9 @@ class ChattingRoomBackgroundColorCell: UICollectionViewCell {
     
     static let identifier: String = "ChattingRoomBackgroundColorCell"
     
-    private let button: UIButton = {
+    private lazy var button: UIButton = {
         let button = UIButton()
-        button.layer.cornerRadius = 10
+        button.layer.cornerRadius = contentView.frame.size.width / 2
         return button
     }()
     
@@ -23,7 +23,7 @@ class ChattingRoomBackgroundColorCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.flex.define { flex in
-            flex.addItem(button).size(20)
+            flex.addItem(button)
         }
     }
     
@@ -44,4 +44,15 @@ class ChattingRoomBackgroundColorCell: UICollectionViewCell {
         button.backgroundColor = background
     }
     
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                button.layer.borderWidth = 1
+                button.layer.borderColor = UIColor.black.cgColor
+            } else {
+                button.layer.borderWidth = 0
+                button.layer.borderColor = UIColor.clear.cgColor
+            }
+        }
+    }
 }

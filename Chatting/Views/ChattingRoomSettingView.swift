@@ -16,6 +16,8 @@ class ChattingRoomSettingView: UIViewController {
     let rootFlexView = UIView()
     var load: Int = 0
     
+    let backgroundColor: [String] = [ "F9E1E2", "FCEED3", "FEF4D7", "F8D2E8", "D3EFF4", "D7F5EA", "DEF0FC", "DDE4FE", "E0DDFC", "D8D9DE" ]
+    
     private lazy var lb_roomName: UILabel = {
         let label = UILabel()
         label.text = "채팅방 이름"
@@ -39,7 +41,6 @@ class ChattingRoomSettingView: UIViewController {
         return label
     }()
     
-    let list = ["adsfasdf", "adfasdf", "ffefefefef"]
     private lazy var cv_backgroundColor: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -70,6 +71,19 @@ class ChattingRoomSettingView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        buttonAction()
+    }
+    
+    private func buttonAction() {
+        
+        btn_cancel.addAction(UIAction { _ in
+            self.dismiss(animated: true)
+        }, for: .touchUpInside)
+        
+        btn_confirm.addAction(UIAction { _ in
+            print("confirm")
+        }, for: .touchUpInside)
+        
         initUI()
     }
     
@@ -83,14 +97,14 @@ class ChattingRoomSettingView: UIViewController {
                 mainFlex.addItem(lb_roomName).height(32).marginTop(16)
                 mainFlex.addItem(tf_roomName).height(48)
                 
-                mainFlex.addItem(lb_roomBackgroundColor).height(48).marginTop(16)
-                mainFlex.addItem(cv_backgroundColor).height(80)
+                mainFlex.addItem(lb_roomBackgroundColor).height(48).marginTop(16).marginBottom(8)
+                mainFlex.addItem(cv_backgroundColor).height((view.frame.size.width / 5) * 2)
             }
             
-            let buttonWidth = (view.frame.width - 64 - 4) / 2
+            let buttonWidth = (view.frame.width - 64 - 8) / 2
             
             flex.addItem().height(50).direction(.row).marginBottom(34).define { bottomButtonFlex in
-                bottomButtonFlex.addItem(btn_cancel).height(56).width(buttonWidth).marginRight(4)
+                bottomButtonFlex.addItem(btn_cancel).height(56).width(buttonWidth).marginRight(8)
                 bottomButtonFlex.addItem(btn_confirm).height(56).width(buttonWidth)
             }
         }
@@ -127,12 +141,31 @@ extension ChattingRoomSettingView: UITextFieldDelegate {
 extension ChattingRoomSettingView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return list.count
+        return backgroundColor.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChattingRoomBackgroundColorCell.identifier, for: indexPath) as! ChattingRoomBackgroundColorCell
-        cell.configure(background: .black)
+        
+        let backgroundColor = UIColor(hexCode: backgroundColor[indexPath.row])
+        
+        cell.configure(background: backgroundColor)
         return cell
+    }
+}
+
+extension ChattingRoomSettingView: UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 16
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 16
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let size = collectionView.frame.width / 5 - 16
+        return CGSize(width: size, height: size)
     }
 }
