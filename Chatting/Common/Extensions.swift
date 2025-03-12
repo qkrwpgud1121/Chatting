@@ -133,7 +133,7 @@ extension String {
 
 extension UITextField {
     
-    func setBottomBorder(color: UIColor, leftView: Bool? = true, clearButtonMode: Bool? = true) {
+    func setBottomBorder(color: UIColor? = UIColor.systemGray5, leftView: Bool? = true) {
         
         self.clearButtonMode = .whileEditing
         self.spellCheckingType = .no
@@ -143,7 +143,7 @@ extension UITextField {
         
         let border = CALayer()
         border.frame = CGRect(x: 0, y: self.frame.size.height - 2.0, width: self.frame.size.width, height: 2.0)
-        border.backgroundColor = color.cgColor
+        border.backgroundColor = color!.cgColor
         self.layer.addSublayer(border)
         
         if leftView! {

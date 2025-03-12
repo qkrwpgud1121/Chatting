@@ -14,6 +14,7 @@ class ChattingRoomSettingView: UIViewController {
     let common = Common()
     
     let rootFlexView = UIView()
+    var load: Int = 0
     
     private lazy var lb_roomName: UILabel = {
         let label = UILabel()
@@ -38,10 +39,33 @@ class ChattingRoomSettingView: UIViewController {
         return label
     }()
     
-//    private let cv_roomBackgroundColor: UICollectionView = {
-//        let collectionView = UICollectionView()
-//        return collectionView
-//    }()
+    let list = ["adsfasdf", "adfasdf", "ffefefefef"]
+    private lazy var cv_backgroundColor: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(ChattingRoomBackgroundColorCell.self, forCellWithReuseIdentifier: ChattingRoomBackgroundColorCell.identifier)
+        return collectionView
+    }()
+    
+    private lazy var btn_cancel: UIButton = {
+        let button = UIButton()
+        button.setTitle("취소", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 28
+        button.backgroundColor = .lightGray
+        return button
+    }()
+    
+    private lazy var btn_confirm: UIButton = {
+        let button = UIButton()
+        button.setTitle("확인", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 28
+        button.backgroundColor = common.commonBasicColor
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,14 +77,24 @@ class ChattingRoomSettingView: UIViewController {
         rootFlexView.backgroundColor = .white
         view.addSubview(rootFlexView)
         
-        
-        
-        rootFlexView.flex.paddingHorizontal(32).define { flex in
-            flex.addItem(lb_roomName).height(32).marginTop(16)
-            flex.addItem(tf_roomName).height(48)
+        rootFlexView.flex.justifyContent(.spaceBetween).paddingHorizontal(32).define { flex in
             
-            flex.addItem(lb_roomBackgroundColor).height(48).marginTop(16)
+            flex.addItem().direction(.column).define { mainFlex in
+                mainFlex.addItem(lb_roomName).height(32).marginTop(16)
+                mainFlex.addItem(tf_roomName).height(48)
+                
+                mainFlex.addItem(lb_roomBackgroundColor).height(48).marginTop(16)
+                mainFlex.addItem(cv_backgroundColor).height(80)
+            }
+            
+            let buttonWidth = (view.frame.width - 64 - 4) / 2
+            
+            flex.addItem().height(50).direction(.row).marginBottom(34).define { bottomButtonFlex in
+                bottomButtonFlex.addItem(btn_cancel).height(56).width(buttonWidth).marginRight(4)
+                bottomButtonFlex.addItem(btn_confirm).height(56).width(buttonWidth)
+            }
         }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -69,11 +103,12 @@ class ChattingRoomSettingView: UIViewController {
         rootFlexView.pin.all()
         rootFlexView.flex.layout()
         
-        setBottomBorder(color: .lightGray)
+        load == 0 ? setBottomBorder(color: .systemGray5) : ()
     }
     
     private func setBottomBorder(color: UIColor) {
         tf_roomName.setBottomBorder(color: color, leftView: false)
+        load += 1
     }
     
 }
@@ -85,6 +120,19 @@ extension ChattingRoomSettingView: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        setBottomBorder(color: .lightGray)
+        setBottomBorder(color: .systemGray5)
+    }
+}
+
+extension ChattingRoomSettingView: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return list.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChattingRoomBackgroundColorCell.identifier, for: indexPath) as! ChattingRoomBackgroundColorCell
+        cell.configure(background: .black)
+        return cell
     }
 }
