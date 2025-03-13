@@ -9,12 +9,20 @@ import UIKit
 import FlexLayout
 import PinLayout
 
+protocol ChattingRoomSettingViewDelegate: AnyObject {
+    func didChangeBackgroundColor(_ color: UIColor)
+}
+
 class ChattingRoomSettingView: UIViewController {
     
     let common = Common()
     
     let rootFlexView = UIView()
     var load: Int = 0
+    
+    var chattingRoomName: String = ""
+    
+    weak var delegate: ChattingRoomSettingViewDelegate?
     
     let backgroundColor: [String] = [ "F9E1E2", "FCEED3", "FEF4D7", "F8D2E8", "D3EFF4", "D7F5EA", "DEF0FC", "DDE4FE", "E0DDFC", "D8D9DE" ]
     
@@ -91,14 +99,16 @@ class ChattingRoomSettingView: UIViewController {
         rootFlexView.backgroundColor = .white
         view.addSubview(rootFlexView)
         
+        tf_roomName.text = chattingRoomName
+        
         rootFlexView.flex.justifyContent(.spaceBetween).paddingHorizontal(32).define { flex in
             
             flex.addItem().direction(.column).define { mainFlex in
                 mainFlex.addItem(lb_roomName).height(32).marginTop(16)
-                mainFlex.addItem(tf_roomName).height(48)
+                mainFlex.addItem(tf_roomName).height(48).marginBottom(8)
                 
-                mainFlex.addItem(lb_roomBackgroundColor).height(48).marginTop(16).marginBottom(8)
-                mainFlex.addItem(cv_backgroundColor).height((view.frame.size.width / 5) * 2)
+                mainFlex.addItem(lb_roomBackgroundColor).height(32).marginBottom(16)
+                mainFlex.addItem(cv_backgroundColor).height(((view.frame.size.width - 64 - 32) / 5) * 2)
             }
             
             let buttonWidth = (view.frame.width - 64 - 8) / 2
@@ -151,6 +161,11 @@ extension ChattingRoomSettingView: UICollectionViewDelegate, UICollectionViewDat
         
         cell.configure(background: backgroundColor)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let backgroundColor = UIColor(hexCode: backgroundColor[indexPath.row])
+        delegate?.didChangeBackgroundColor(backgroundColor)
     }
 }
 

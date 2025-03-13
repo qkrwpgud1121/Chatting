@@ -16,7 +16,7 @@ enum modalBottomSheet {
     case roomSetting
 }
 
-class ChattingRoomView: UIViewController {
+class ChattingRoomView: UIViewController, ChattingRoomSettingViewDelegate {
     
     let common = Common()
     
@@ -28,6 +28,8 @@ class ChattingRoomView: UIViewController {
     
     var chatRoomName: String = ""
     var proFileImage: String? = ""
+    
+    var backgroundColor = UIColor(hexCode: "8FCBDD")
     
     var items: [UIAction] {
         let invite = UIAction(title: "대화상대 초대", handler: { _ in print("invite") })
@@ -109,7 +111,7 @@ class ChattingRoomView: UIViewController {
         self.navigationItem.title = chatRoomName
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(hexCode: "8FCBDD").withAlphaComponent(1.0)
+        appearance.backgroundColor = .white
         appearance.shadowColor = .clear
         
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -180,8 +182,7 @@ class ChattingRoomView: UIViewController {
         view.addSubview(rootFlexContainer)
         
         rootFlexContainer.flex.direction(.column).define { flex in
-            flex.addItem(messageListTableView).grow(1).backgroundColor(UIColor(hexCode: "8FCBDD"))
-            flex.addItem().backgroundColor(UIColor(hexCode: "8FCBDD")).height(4)
+            flex.addItem(messageListTableView).grow(1).backgroundColor(backgroundColor)
             flex.addItem(inputContainer).direction(.row).alignItems(.center).height(60).backgroundColor(.white).define { input in
                 input.addItem(utilButton).marginHorizontal(8).size(40)
                 input.addItem(textField).grow(1).height(40)
@@ -222,7 +223,19 @@ class ChattingRoomView: UIViewController {
             sheet.detents = [.medium()]
             sheet.largestUndimmedDetentIdentifier = nil
         }
+        
+        if let settingVC = modalVC as? ChattingRoomSettingView {
+            settingVC.delegate = self
+            settingVC.chattingRoomName = chatRoomName
+        }
+        
         self.present(modalVC, animated: true)
+    }
+    
+    func didChangeBackgroundColor(_ color: UIColor) {
+        rootFlexContainer.backgroundColor = color
+        messageListTableView.backgroundColor = color
+        rootFlexContainer.flex.markDirty()
     }
     
 }
