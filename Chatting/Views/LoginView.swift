@@ -184,15 +184,6 @@ class LoginView: UIViewController {
         button.contentMode = .scaleAspectFill
         return button
     }()
-    
-    /// 임시
-    private let btn_login1: UIButton = {
-        let button = UIButton()
-        button.setTitle("로그인", for: .normal)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = .lightGray
-        return button
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -248,8 +239,7 @@ class LoginView: UIViewController {
                 easyLogin.addItem(btn_googleLogin).size(60)
                 easyLogin.addItem(btn_appleLogin).size(60)
             }
-            /// 임시
-            flex.addItem(btn_login1).height(56)
+            
         }
         
         bindUI()
@@ -258,17 +248,6 @@ class LoginView: UIViewController {
             let nextVC = TabbarView()
             nextVC.modalPresentationStyle = .fullScreen
             self.present(nextVC, animated: true)
-        }, for: .touchUpInside)
-        
-        /// 임시
-        btn_login1.addAction(UIAction { _ in
-            let modalVC = ChattingRoomSettingView()
-            modalVC.modalPresentationStyle = .pageSheet
-            if let sheet = modalVC.sheetPresentationController {
-                sheet.detents = [.medium()]
-                sheet.largestUndimmedDetentIdentifier = nil
-            }
-            self.present(modalVC, animated: true)
         }, for: .touchUpInside)
         
         btn_saveId.addAction(UIAction { _ in

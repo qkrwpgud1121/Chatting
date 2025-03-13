@@ -24,6 +24,7 @@ class ChattingRoomSettingView: UIViewController {
     
     weak var delegate: ChattingRoomSettingViewDelegate?
     
+    var backgroundHexCode: String = ""
     let backgroundColor: [String] = [ "F9E1E2", "FCEED3", "FEF4D7", "F8D2E8", "D3EFF4", "D7F5EA", "DEF0FC", "DDE4FE", "E0DDFC", "D8D9DE" ]
     
     private lazy var lb_roomName: UILabel = {
@@ -158,8 +159,17 @@ extension ChattingRoomSettingView: UICollectionViewDelegate, UICollectionViewDat
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChattingRoomBackgroundColorCell.identifier, for: indexPath) as! ChattingRoomBackgroundColorCell
         
         let backgroundColor = UIColor(hexCode: backgroundColor[indexPath.row])
+        let selected = self.backgroundColor[indexPath.row] == backgroundHexCode
         
         cell.configure(background: backgroundColor)
+        
+        if selected {
+            cell.isSelected = true
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init())
+        } else {
+            cell.isSelected = false
+        }
+        
         return cell
     }
     

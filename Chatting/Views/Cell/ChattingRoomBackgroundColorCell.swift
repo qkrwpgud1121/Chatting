@@ -31,6 +31,27 @@ class ChattingRoomBackgroundColorCell: UICollectionViewCell {
     
     func configure(background: UIColor) {
         contentView.backgroundColor = background
+        
+    }
+    
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                selected()
+            } else {
+                deSelected()
+            }
+        }
+    }
+    
+    func selected() {
+        contentView.layer.borderWidth = 2.0
+        contentView.layer.borderColor = UIColor.black.cgColor
+    }
+    
+    func deSelected() {
+        contentView.layer.borderWidth = 0.0
+        contentView.layer.borderColor = UIColor.clear.cgColor
     }
     
 }

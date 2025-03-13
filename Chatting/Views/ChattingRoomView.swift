@@ -29,7 +29,8 @@ class ChattingRoomView: UIViewController, ChattingRoomSettingViewDelegate {
     var chatRoomName: String = ""
     var proFileImage: String? = ""
     
-    var backgroundColor = UIColor(hexCode: "8FCBDD")
+    var backgroundHexCode: String = "F9E1E2"
+    lazy var backgroundColor = UIColor(hexCode: self.backgroundHexCode)
     
     var items: [UIAction] {
         let invite = UIAction(title: "대화상대 초대", handler: { _ in print("invite") })
@@ -227,6 +228,7 @@ class ChattingRoomView: UIViewController, ChattingRoomSettingViewDelegate {
         if let settingVC = modalVC as? ChattingRoomSettingView {
             settingVC.delegate = self
             settingVC.chattingRoomName = chatRoomName
+            settingVC.backgroundHexCode = backgroundHexCode
         }
         
         self.present(modalVC, animated: true)
