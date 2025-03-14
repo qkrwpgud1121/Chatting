@@ -218,24 +218,10 @@ class ChattingRoomView: UIViewController, ChattingRoomSettingViewDelegate {
     }
     
     private func modalBottomSheet(modalType: modalBottomSheet) {
-//        let modalVC = modalType == .fileBox ? ChattingRoomFileBoxView() : ChattingRoomSettingView()
-//        modalVC.modalPresentationStyle = .pageSheet
-//        if let sheet = modalVC.sheetPresentationController {
-//            sheet.detents = [.medium()]
-//            sheet.largestUndimmedDetentIdentifier = nil
-//        }
-//        
-//        if let settingVC = modalVC as? ChattingRoomSettingView {
-//            settingVC.delegate = self
-//            settingVC.chattingRoomName = chatRoomName
-//            settingVC.backgroundHexCode = backgroundHexCode
-//        }
-//        
-//        self.present(modalVC, animated: true)
         
         if modalType == .fileBox {
             
-            let modalVC = ChattingRoomFileBoxView()
+            let modalVC = ChattingRoomSegmentView()
             let navigationController = UINavigationController(rootViewController: modalVC)
             navigationController.modalPresentationStyle = .fullScreen
             self.present(navigationController, animated: true)

@@ -9,7 +9,7 @@ import UIKit
 import FlexLayout
 import PinLayout
 
-class ChattingRoomFileBoxView: UIViewController {
+class ChattingRoomGalleryView: UIViewController {
     
     let common = Common()
     
@@ -51,7 +51,7 @@ class ChattingRoomFileBoxView: UIViewController {
     
 }
 
-extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 18
@@ -67,7 +67,7 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
     
 }
 
-extension ChattingRoomFileBoxView: UICollectionViewDelegateFlowLayout {
+extension ChattingRoomGalleryView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 4
@@ -78,7 +78,7 @@ extension ChattingRoomFileBoxView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = collectionView.frame.width / 3 - 4
+        let size = collectionView.frame.width / 2 - 4
         return CGSize(width: size, height: size)
     }
 }
