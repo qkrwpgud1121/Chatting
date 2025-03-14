@@ -28,7 +28,7 @@ class ChattingRoomFileBoxCell: UICollectionViewCell {
     }
     
     func configure() {
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .lightGray
     }
     
     

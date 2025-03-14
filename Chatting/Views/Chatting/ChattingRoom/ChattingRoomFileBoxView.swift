@@ -21,14 +21,23 @@ class ChattingRoomFileBoxView: UIViewController {
         return button
     }()
     
-    private let segmentedControl: UISegmentedControl = {
+    private lazy var segmentedControl: UISegmentedControl = {
         let segment = UISegmentedControl()
         segment.insertSegment(withTitle: "사진/동영상", at: 0, animated: true)
         segment.insertSegment(withTitle: "파일", at: 1, animated: true)
         segment.selectedSegmentIndex = 0
         segment.selectedSegmentTintColor = .clear
+        segment.setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor.lightGray.cgColor,
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)
+        ], for: .normal)
+        segment.setTitleTextAttributes([
+            NSAttributedString.Key.foregroundColor: UIColor(cgColor: common.commonBasicColor.cgColor),
+            NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)
+        ], for: .selected)
         segment.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
         segment.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+        segment.addTarget(self, action: #selector(tapChanged), for: .valueChanged)
         return segment
     }()
     
@@ -85,9 +94,9 @@ class ChattingRoomFileBoxView: UIViewController {
         
         
         rootFlexView.flex.define { flex in
-            flex.addItem(segmentedControl).height(40).margin(20)
-            flex.addItem(underLine).height(2).marginHorizontal(20)
-            //flex.addItem(cv_fileBox).backgroundColor(.red)
+            flex.addItem(segmentedControl).height(40)
+            flex.addItem(underLine).width(view.frame.size.width / 2).height(2)
+            flex.addItem(cv_fileBox)
         }
     }
     
@@ -97,16 +106,36 @@ class ChattingRoomFileBoxView: UIViewController {
         rootFlexView.pin.all(view.pin.safeArea)
         rootFlexView.flex.layout()
         
-        cv_fileBox.pin.all()
+        cv_fileBox.pin.below(of: underLine).bottom().horizontally()
     }
     
-    
+    @objc func tapChanged() {
+        let underlineWidth = view.frame.size.width / 2
+        
+        let underlineXPosition = CGFloat(segmentedControl.selectedSegmentIndex) * underlineWidth
+        
+        var segueId: String = ""
+        
+        switch segmentedControl.selectedSegmentIndex {
+        case 0:
+            segueId = "ChattingRoomFileBoxView"
+        case 1:
+            segueId = "ChattingRoomFileBoxView"
+        default:
+            break
+        }
+        
+        UIView.animate(withDuration: 0.3) {
+            self.underLine.frame.origin.x = underlineXPosition
+        }
+        
+    }
 }
 
 extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        return 18
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
