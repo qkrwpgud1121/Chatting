@@ -14,7 +14,9 @@ class ChattingRoomSegmentView: UIViewController {
     
     let common = Common()
     
-    let rootFlexView = UIView()
+    private let rootFlexView = UIView()
+    
+    var chatRoomName: String = ""
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
@@ -22,10 +24,8 @@ class ChattingRoomSegmentView: UIViewController {
         return button
     }()
     
-    private lazy var segmentedControl: UISegmentedControl = {
-        let segment = UISegmentedControl()
-        segment.insertSegment(withTitle: "사진/동영상", at: 0, animated: true)
-        segment.insertSegment(withTitle: "파일", at: 1, animated: true)
+    private lazy var segment: UISegmentedControl = {
+        let segment = UISegmentedControl(items: ["사진/동영상", "파일"])
         segment.selectedSegmentIndex = 0
         segment.selectedSegmentTintColor = .clear
         segment.setTitleTextAttributes([
@@ -38,7 +38,7 @@ class ChattingRoomSegmentView: UIViewController {
         ], for: .selected)
         segment.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
         segment.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
-        segment.addTarget(self, action: #selector(tapChanged), for: .valueChanged)
+        segment.addTarget(self, action: #selector(segmentChanged), for: .valueChanged)
         return segment
     }()
     
@@ -48,47 +48,40 @@ class ChattingRoomSegmentView: UIViewController {
         return view
     }()
     
-    private let fileBox = ChattingRoomFileBoxView()
-    private let gallery = ChattingRoomGalleryView()
-    
-    private let testView1: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        view.isHidden = false
-        return view
+    private lazy var pageViewControllers: [UIViewController] = {
+        let fileBox = ChattingRoomFileBoxView()
+        let gallery = ChattingRoomGalleryView()
+        return [fileBox, gallery]
     }()
     
-    private let testView2: UIView = {
-        let view = UIView()
-        view.backgroundColor = .blue
-        view.isHidden = true
-        return view
+    private lazy var pageView: UIPageViewController = {
+        let pageView = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+        pageView.delegate = self
+        pageView.dataSource = self
+        return pageView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigationBar()
+        
+        addChild(pageView)
+        pageView.didMove(toParent: self)
+        
+        pageView.setViewControllers([pageViewControllers.first!], direction: .forward, animated: true)
     }
     
     private func setupNavigationBar() {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: dismissButton)
-        self.navigationItem.title = ""
+        self.navigationItem.title = chatRoomName
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .white
         appearance.shadowColor = .clear
         
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-        
-        componentAction()
-    }
-    
-    private func componentAction() {
-        
-        dismissButton.addAction(UIAction { _ in
-            self.dismiss(animated: true)
-        }, for: .touchUpInside)
         
         initUI()
     }
@@ -100,10 +93,9 @@ class ChattingRoomSegmentView: UIViewController {
         rootFlexView.backgroundColor = .white
         
         rootFlexView.flex.define { flex in
-            flex.addItem(segmentedControl).height(40)
+            flex.addItem(segment).height(40)
             flex.addItem(underLine).width(view.frame.size.width / 2).height(2)
-            flex.addItem(testView1)
-            flex.addItem(testView2)
+            flex.addItem(pageView.view)
         }
     }
     
@@ -113,28 +105,59 @@ class ChattingRoomSegmentView: UIViewController {
         rootFlexView.pin.all(view.pin.safeArea)
         rootFlexView.flex.layout()
         
-        testView1.pin.below(of: underLine).bottom()
-        testView2.pin.below(of: underLine).bottom()
+        pageView.view.pin.below(of: underLine).bottom()
     }
     
-    @objc func tapChanged() {
-        
+    @objc func segmentChanged() {
+        segmentChaged(index: segment.selectedSegmentIndex)
+    }
+    
+    private func segmentChaged(index: Int) {
         let underlineWidth = view.frame.size.width / 2
         
-        let underlineXPosition = CGFloat(segmentedControl.selectedSegmentIndex) * underlineWidth
+        let underlineXPosition = CGFloat(index) * underlineWidth
         
         UIView.animate(withDuration: 0.3) {
             self.underLine.frame.origin.x = underlineXPosition
         }
-        
-        var shouldHideFirstView: Bool? {
-            didSet {
-                guard let shouldHideFirstView = shouldHideFirstView else { return }
-                self.testView1.isHidden = shouldHideFirstView
-                self.testView2.isHidden = !self.testView1.isHidden
+    }
+}
+
+extension ChattingRoomSegmentView: UIPageViewControllerDelegate {
+    
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        guard let currentVC = pageViewController.viewControllers?.first else { return 0 }
+        return pageViewControllers.firstIndex(of: currentVC) ?? 0
+    }
+    
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        return pageViewControllers.count
+    }
+    
+}
+
+extension ChattingRoomSegmentView: UIPageViewControllerDataSource {
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        guard let index = pageViewControllers.firstIndex(of: viewController), index - 1 >= 0 else { return nil }
+        print(index)
+        return pageViewControllers[index - 1]
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        guard let index = pageViewControllers.firstIndex(of: viewController), index + 1 < self.pageViewControllers.count else { return nil }
+        return pageViewControllers[index + 1]
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if completed {
+            if let currentViewController = pageViewController.viewControllers?.first {
+                if let index = pageViewControllers.firstIndex(of: currentViewController) {
+                    self.segment.selectedSegmentIndex = index
+                    segmentChaged(index: index)
+                }
             }
         }
-        
-        shouldHideFirstView = segmentedControl.selectedSegmentIndex != 0
     }
+    
 }

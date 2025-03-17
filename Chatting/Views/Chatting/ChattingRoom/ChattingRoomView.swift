@@ -222,6 +222,7 @@ class ChattingRoomView: UIViewController, ChattingRoomSettingViewDelegate {
         if modalType == .fileBox {
             
             let modalVC = ChattingRoomSegmentView()
+            modalVC.chatRoomName = chatRoomName
             let navigationController = UINavigationController(rootViewController: modalVC)
             navigationController.modalPresentationStyle = .fullScreen
             self.present(navigationController, animated: true)
