@@ -15,6 +15,8 @@ class ChattingRoomGalleryView: UIViewController {
     
     let rootFlexView = UIView()
     
+    var arrGalleryImage: [GalleryImageModel] = []
+    
     private lazy var cv_fileBox: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -48,6 +50,20 @@ class ChattingRoomGalleryView: UIViewController {
         rootFlexView.flex.layout()
         
         cv_fileBox.pin.all()
+    }
+    
+    private func parsing() {
+        
+        let url = Bundle.main.url(forResource: "GalleryImage", withExtension: "json")!
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let info = try JSONDecoder().decode([GalleryImageModel].self, from: data)
+            arrGalleryImage = info
+        } catch {
+            print("Error parsing JSON: \(error)")
+        }
+        
     }
     
 }
