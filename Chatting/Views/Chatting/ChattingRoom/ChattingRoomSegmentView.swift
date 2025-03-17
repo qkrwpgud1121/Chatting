@@ -83,6 +83,15 @@ class ChattingRoomSegmentView: UIViewController {
         
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
+        componentAction()
+    }
+    
+    private func componentAction() {
+        
+        dismissButton.addAction(UIAction { _ in
+            self.dismiss(animated: true)
+        }, for: .touchUpInside)
+        
         initUI()
     }
     
@@ -113,12 +122,13 @@ class ChattingRoomSegmentView: UIViewController {
     }
     
     private func segmentChaged(index: Int) {
-        let underlineWidth = view.frame.size.width / 2
         
+        let underlineWidth = view.frame.size.width / 2
         let underlineXPosition = CGFloat(index) * underlineWidth
         
         UIView.animate(withDuration: 0.3) {
             self.underLine.frame.origin.x = underlineXPosition
+            self.pageView.setViewControllers([self.pageViewControllers[index]], direction: index == 0 ? .reverse : .forward , animated: true)
         }
     }
 }
