@@ -51,7 +51,7 @@ class ChattingRoomSegmentView: UIViewController {
     private lazy var pageViewControllers: [UIViewController] = {
         let fileBox = ChattingRoomFileBoxView()
         let gallery = ChattingRoomGalleryView()
-        return [fileBox, gallery]
+        return [gallery, fileBox]
     }()
     
     private lazy var pageView: UIPageViewController = {
@@ -150,7 +150,6 @@ extension ChattingRoomSegmentView: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let index = pageViewControllers.firstIndex(of: viewController), index - 1 >= 0 else { return nil }
-        print(index)
         return pageViewControllers[index - 1]
     }
     

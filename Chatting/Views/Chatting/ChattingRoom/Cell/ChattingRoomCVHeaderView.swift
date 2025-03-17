@@ -19,12 +19,11 @@ class ChattingRoomCVHeaderView: UICollectionReusableView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         lb_Date.frame = bounds
     }
     
-    func configure() {
-        backgroundColor = .green
+    func configure(date: String) {
+        lb_Date.text = date
         addSubview(lb_Date)
     }
 }
