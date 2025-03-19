@@ -20,7 +20,7 @@ class ProfileImageView: UIViewController {
     
     var profileImageName: String!
     
-    var images: [String] = ["1", "2", "3", "4"]
+    var profileImages: [ImageDetailModel] = []
     
     let safeAreaWidth = UIScreen.main.bounds.width
     let safeAreaHeight = UIScreen.main.bounds.height
@@ -33,14 +33,15 @@ class ProfileImageView: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        images.insert(profileImageName, at: 0) /// 임시
+        
+        parsing()
         setupNavigationBar()
     }
     
     private func setupNavigationBar() {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: dismissButton)
-        self.navigationItem.title = "1 / \(images.count)"
+        self.navigationItem.title = "1 / \(profileImages.count)"
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .clear
@@ -75,10 +76,10 @@ class ProfileImageView: UIViewController {
         
         contentView.flex.direction(.row).define { flex in
             
-            for image in images {
+            for image in profileImages {
                 let profileImageView: UIImageView = {
                     let imageView = UIImageView()
-                    imageView.image = UIImage(named: "\(image)")
+                    imageView.image = UIImage(named: "\(image.imageUrl)")
                     imageView.contentMode = .scaleAspectFit
                     return imageView
                 }()
@@ -102,12 +103,27 @@ class ProfileImageView: UIViewController {
         
     }
     
+    private func parsing() {
+        
+        let url = Bundle.main.url(forResource: "ProfileImages", withExtension: "json")!
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let info = try JSONDecoder().decode([ImageDetailModel].self, from: data)
+            profileImages = info
+            let newImageDetail = ImageDetailModel(imageUrl: profileImageName)
+            profileImages.insert(newImageDetail, at: 0)
+        } catch {
+            print("Error parsing JSON: \(error)")
+        }
+    }
+    
 }
 
 extension ProfileImageView: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageWidth = scrollView.frame.size.width
         let currentPage = Int(scrollView.contentOffset.x / pageWidth) + 1
-        self.navigationItem.title = "\(currentPage) / \(images.count)"
+        self.navigationItem.title = "\(currentPage) / \(profileImages.count)"
     }
 }

@@ -17,6 +17,7 @@ class ChattingRoomGalleryView: UIViewController {
     
     var arr_GalleryImage: [GalleryImageModel] = []
     var groupedImages: [String: [GalleryImageModel]] = [:]
+    var arr_imageDetail: [ImageDetailModel] = []
     
     private lazy var cv_fileBox: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -122,7 +123,16 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let dates = Array(groupedImages.keys).sorted()
+        let images = groupedImages[dates[indexPath.section]] ?? []
+        let selectedImageURL = images[indexPath.item].url
         
+        let vc = ProfileImageView()
+        vc.profileImageName = selectedImageURL
+        //vc.images = arr_GalleryImage
+        let navigationController = UINavigationController(rootViewController: vc)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true)
     }
     
 }

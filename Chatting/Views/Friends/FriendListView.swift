@@ -12,7 +12,7 @@ import PinLayout
 
 class CustomTapGestureRecognizer: UITapGestureRecognizer {
     
-    var favorite: Bool!
+    var favorite: Bool?
     var userName: String!
     var profileImageName: String!
     var status: String!
@@ -213,6 +213,7 @@ class FriendListView: UIViewController {
         
         contentView.flex.direction(.column).marginHorizontal(16).define { flex in
             
+            // 내 프로필
             flex.addItem().direction(.row).alignItems(.center).marginVertical(16).height(64).define { myProfile in
                 myProfile.addItem(profileImageView).width(65).height(65).marginRight(16)
                 myProfile.addItem(profileNameLabel)
@@ -256,6 +257,7 @@ class FriendListView: UIViewController {
             
             flex.addItem(separatorView2).height(0.5).marginVertical(10)
             
+            // 생일인 친구
             flex.addItem(birthdayFriendLabel).marginBottom(10)
             flex.addItem(birthdayFriendsContentView).define { birthdayContentView in
                 
@@ -311,6 +313,7 @@ class FriendListView: UIViewController {
             
             flex.addItem(separatorView3).height(0.5).marginVertical(10)
             
+            // 즐겨찾기
             flex.addItem(favoriteLabel).marginBottom(10)
             flex.addItem(favoriteFriendsContentView).define { favoriteFriendsContentView in
                 
@@ -367,6 +370,7 @@ class FriendListView: UIViewController {
             
             flex.addItem(separatorView4).height(0.5).marginVertical(10)
             
+            // 친구
             flex.addItem(friendLabel).marginBottom(10)
             flex.addItem(friendsContentView).define { friendsContentView in
                 
@@ -447,7 +451,7 @@ class FriendListView: UIViewController {
         
         let profileDetailVC = ProfileDetail()
         
-        profileDetailVC.favorite = sender.favorite
+        profileDetailVC.favorite = sender.favorite ?? false
         profileDetailVC.userName = sender.userName
         profileDetailVC.profileImageName = sender.profileImageName
         profileDetailVC.myProfile = sender.myProfile
