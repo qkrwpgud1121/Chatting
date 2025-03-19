@@ -23,13 +23,16 @@ class ChattingRoomGalleryView: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ChattingRoomCVHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ChattingRoomCVHeaderView.identifier)
-        collectionView.register(ChattingRoomFileBoxCell.self, forCellWithReuseIdentifier: ChattingRoomFileBoxCell.identifier)
+        collectionView.register(ChattingRoomGalleryCell.self, forCellWithReuseIdentifier: ChattingRoomGalleryCell.identifier)
         return collectionView
     }()
+    
+    var groupedImages: [String: [GalleryImageModel]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        parsing()
         initUI()
     }
     
@@ -64,38 +67,59 @@ class ChattingRoomGalleryView: UIViewController {
             print("Error parsing JSON: \(error)")
         }
         
+        for image in arrGalleryImage {
+            let date = image.date.components(separatedBy: ".")[0]
+            if var images = groupedImages[date] {
+                images.append(image)
+                groupedImages[date] = images
+            } else {
+                groupedImages[date] = [image]
+            }
+        }
+        
     }
     
 }
 
 extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewDelegate {
     
+    // section 별 image 개수
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 4
+        let dates = Array(groupedImages.keys).sorted()
+        let images = groupedImages[dates[section]]?.count ?? 0
+        return images
     }
     
+    // section 별 image 설정
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChattingRoomFileBoxCell.identifier, for: indexPath) as! ChattingRoomFileBoxCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChattingRoomGalleryCell.identifier, for: indexPath) as! ChattingRoomGalleryCell
         
-        cell.configure()
+        let dates = Array(groupedImages.keys).sorted()
+        let images = groupedImages[dates[indexPath.section]] ?? []
+        
+        cell.configure(imageURL: images[indexPath.item].url)
         
         return cell
     }
     
+    // header view text 설정
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ChattingRoomCVHeaderView.identifier, for: indexPath) as! ChattingRoomCVHeaderView
         
-        header.configure(date: "2025. 03. 17")
+        let dates = Array(groupedImages.keys).sorted()
+        header.configure(date: dates[indexPath.section])
         
         return header
     }
     
+    // header view 의 size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: view.frame.size.width, height: 40)
     }
     
+    // section 의 개수
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return Array(groupedImages.keys).count
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
