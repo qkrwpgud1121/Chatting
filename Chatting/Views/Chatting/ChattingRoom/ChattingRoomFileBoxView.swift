@@ -15,6 +15,10 @@ class ChattingRoomFileBoxView: UIViewController {
     
     let rootFlexView = UIView()
     
+    var arr_fileBox: [FileBoxModel] = []
+    
+    var fileGrouped: [String : [FileBoxModel]] = [:]
+    
     private lazy var cv_fileBox: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -28,6 +32,7 @@ class ChattingRoomFileBoxView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        parsing()
         initUI()
     }
     
@@ -47,7 +52,30 @@ class ChattingRoomFileBoxView: UIViewController {
         rootFlexView.pin.all(view.pin.safeArea)
         rootFlexView.flex.layout()
         
-        cv_fileBox.pin.all()
+        cv_fileBox.pin.all().marginHorizontal(16)
+    }
+    
+    private func parsing() {
+        
+        let url = Bundle.main.url(forResource: "FileBox", withExtension: "json")!
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let info = try JSONDecoder().decode([FileBoxModel].self, from: data)
+            arr_fileBox = info
+        } catch {
+            print("Error parsing JSON: \(error)")
+        }
+        
+        for file in arr_fileBox {
+            let date = file.date.components(separatedBy: ".")[0]
+            if var files = fileGrouped[date] {
+                files.append(file)
+                fileGrouped[date] = files
+            } else {
+                fileGrouped[date] = [file]
+            }
+        }
     }
     
 }
@@ -55,13 +83,22 @@ class ChattingRoomFileBoxView: UIViewController {
 extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        let dates = Array(fileGrouped.keys).sorted()
+        let fileCount = fileGrouped[dates[section]]?.count ?? 0
+        return fileCount
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChattingRoomFileBoxCell.identifier, for: indexPath) as! ChattingRoomFileBoxCell
         
-        cell.configure()
+        let dates = Array(fileGrouped.keys).sorted()
+        let files = fileGrouped[dates[indexPath.section]] ?? []
+        
+        let type = files[indexPath.item].name.components(separatedBy: ".")[1]
+        let name = files[indexPath.item].name
+        let size = String(files[indexPath.item].size)
+        
+        cell.configure(type: type, name: name, size: size)
         
         return cell
     }
@@ -69,7 +106,8 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ChattingRoomCVHeaderView.identifier, for: indexPath) as! ChattingRoomCVHeaderView
         
-        header.configure(date: "2025. 03. 17")
+        let dates = Array(fileGrouped.keys).sorted()
+        header.configure(date: dates[indexPath.section])
         
         return header
     }
@@ -79,7 +117,7 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return Array(fileGrouped.keys).count
     }
     
 }

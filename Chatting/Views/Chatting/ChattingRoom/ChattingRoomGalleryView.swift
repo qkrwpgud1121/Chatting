@@ -15,7 +15,8 @@ class ChattingRoomGalleryView: UIViewController {
     
     let rootFlexView = UIView()
     
-    var arrGalleryImage: [GalleryImageModel] = []
+    var arr_GalleryImage: [GalleryImageModel] = []
+    var groupedImages: [String: [GalleryImageModel]] = [:]
     
     private lazy var cv_fileBox: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -26,8 +27,6 @@ class ChattingRoomGalleryView: UIViewController {
         collectionView.register(ChattingRoomGalleryCell.self, forCellWithReuseIdentifier: ChattingRoomGalleryCell.identifier)
         return collectionView
     }()
-    
-    var groupedImages: [String: [GalleryImageModel]] = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,12 +61,12 @@ class ChattingRoomGalleryView: UIViewController {
         do {
             let data = try Data(contentsOf: url)
             let info = try JSONDecoder().decode([GalleryImageModel].self, from: data)
-            arrGalleryImage = info
+            arr_GalleryImage = info
         } catch {
             print("Error parsing JSON: \(error)")
         }
         
-        for image in arrGalleryImage {
+        for image in arr_GalleryImage {
             let date = image.date.components(separatedBy: ".")[0]
             if var images = groupedImages[date] {
                 images.append(image)
