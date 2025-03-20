@@ -69,6 +69,8 @@ class ChattingRoomGalleryView: UIViewController {
         
         for image in arr_GalleryImage {
             let date = image.date.components(separatedBy: ".")[0]
+            let imageUrl = image.url
+            arr_imageDetail.append(ImageDetailModel(imageUrl: imageUrl))
             if var images = groupedImages[date] {
                 images.append(image)
                 groupedImages[date] = images
@@ -129,7 +131,7 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
         
         let vc = ProfileImageView()
         vc.profileImageName = selectedImageURL
-        //vc.images = arr_GalleryImage
+        vc.profileImages = arr_imageDetail
         let navigationController = UINavigationController(rootViewController: vc)
         navigationController.modalPresentationStyle = .fullScreen
         present(navigationController, animated: true)

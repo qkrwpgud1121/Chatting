@@ -34,7 +34,7 @@ class ProfileImageView: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        parsing()
+        //parsing()
         setupNavigationBar()
     }
     
@@ -111,8 +111,6 @@ class ProfileImageView: UIViewController {
             let data = try Data(contentsOf: url)
             let info = try JSONDecoder().decode([ImageDetailModel].self, from: data)
             profileImages = info
-            let newImageDetail = ImageDetailModel(imageUrl: profileImageName)
-            profileImages.insert(newImageDetail, at: 0)
         } catch {
             print("Error parsing JSON: \(error)")
         }
