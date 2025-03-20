@@ -128,13 +128,6 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
         let dates = Array(groupedImages.keys).sorted()
         let images = groupedImages[dates[indexPath.section]] ?? []
         let selectedImageURL = images[indexPath.item].url
-        
-        let vc = ProfileImageView()
-        vc.profileImageName = selectedImageURL
-        vc.profileImages = arr_imageDetail
-        let navigationController = UINavigationController(rootViewController: vc)
-        navigationController.modalPresentationStyle = .fullScreen
-        present(navigationController, animated: true)
     }
     
 }
