@@ -15,6 +15,7 @@ class ChattingRoomGalleryView: UIViewController {
     
     let rootFlexView = UIView()
     
+    var chatRoomName: String = ""
     var arr_GalleryImage: [GalleryImageModel] = []
     var groupedImages: [String: [GalleryImageModel]] = [:]
     
@@ -123,9 +124,14 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
     
     // image select action
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        arr_GalleryImage[indexPath.row]
         
-        print(arr_GalleryImage[indexPath.row])
+        let galleryDetailVC = ChattingRoomGalleryDetailView()
+        galleryDetailVC.chatRoomName = chatRoomName
+        galleryDetailVC.galleryImages = arr_GalleryImage
+        galleryDetailVC.selectedImageIndex = indexPath.row
+        let navigationController = UINavigationController(rootViewController: galleryDetailVC)
+        navigationController.modalPresentationStyle = .fullScreen
+        self.present(navigationController, animated: true)
     }
     
 }

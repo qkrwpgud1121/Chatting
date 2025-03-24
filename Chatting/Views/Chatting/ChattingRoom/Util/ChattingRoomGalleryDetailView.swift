@@ -12,12 +12,17 @@ import PinLayout
 class ChattingRoomGalleryDetailView: UIViewController {
     
     let common = Common()
-    let galleryImages: [GalleryImageModel] = []
+    var galleryImages: [GalleryImageModel] = []
     
     var chatRoomName: String = ""
     var selectedImageIndex: Int = 0
     
     let rootFlexView = UIView()
+    let scrollView = UIScrollView()
+    let contentView = UIView()
+    
+    let safeAreaWidth = UIScreen.main.bounds.width
+    let safeAreaHeight = UIScreen.main.bounds.height
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
@@ -37,7 +42,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
         self.navigationItem.title = chatRoomName
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
+        appearance.backgroundColor = .black
         appearance.shadowColor = .clear
         
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
@@ -56,16 +61,48 @@ class ChattingRoomGalleryDetailView: UIViewController {
     
     private func initUI() {
         
-        view.addSubview(rootFlexView)
-        rootFlexView.backgroundColor = .white
+        rootFlexView.backgroundColor = .black
         
-        rootFlexView.flex.define { flex in
+        view.addSubview(rootFlexView)
+        rootFlexView.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        
+        scrollView.delegate = self
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.isPagingEnabled = true
+        
+        contentView.flex.direction(.row).define { flex in
             
+            for image in galleryImages {
+                let profileImageView: UIImageView = {
+                    let imageView = UIImageView()
+                    imageView.image = UIImage(named: "\(image.url)")
+                    imageView.contentMode = .scaleAspectFit
+                    return imageView
+                }()
+                
+                flex.addItem(profileImageView).width(safeAreaWidth)
+            }
         }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        rootFlexView.pin.all()
+        scrollView.pin.all(view.pin.safeArea)
+        contentView.pin.all()
+        
+        contentView.flex.layout(mode: .adjustWidth)
+        
+        scrollView.contentSize = contentView.frame.size
+    }
+}
+
+extension ChattingRoomGalleryDetailView: UIScrollViewDelegate {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let pageWidth = scrollView.frame.size.width
+        let currentPage = Int(scrollView.contentOffset.x / pageWidth) + 1
+        self.navigationItem.title = "\(currentPage) / \(galleryImages.count)"
     }
 }

@@ -51,6 +51,7 @@ class ChattingRoomSegmentView: UIViewController {
     private lazy var pageViewControllers: [UIViewController] = {
         let fileBox = ChattingRoomFileBoxView()
         let gallery = ChattingRoomGalleryView()
+        gallery.chatRoomName = chatRoomName
         return [gallery, fileBox]
     }()
     
