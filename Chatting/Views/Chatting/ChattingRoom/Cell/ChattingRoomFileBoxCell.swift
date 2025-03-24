@@ -81,7 +81,7 @@ class ChattingRoomFileBoxCell: UICollectionViewCell {
             return UIImage(named: "pptxLogo")!
         case "doc", "docx", "hwp":
             return UIImage(named: "docLogo")!
-        case "mp3", "mp4", "wma", "aac":
+        case "mp3", "mp4", "wma", "aac", "m4a":
             return UIImage(named: "soundLogo")!
         default:
             return UIImage(named: "folderLogo")!

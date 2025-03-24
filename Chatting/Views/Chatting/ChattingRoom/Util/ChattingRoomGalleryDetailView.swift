@@ -26,7 +26,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
-        button.tintColor = .black
+        button.tintColor = .white
         return button
     }()
     
@@ -44,7 +44,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .black
         appearance.shadowColor = .clear
-        
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
         componentAction()
@@ -67,7 +67,6 @@ class ChattingRoomGalleryDetailView: UIViewController {
         rootFlexView.addSubview(scrollView)
         scrollView.addSubview(contentView)
         
-        scrollView.delegate = self
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isPagingEnabled = true
         
@@ -99,10 +98,3 @@ class ChattingRoomGalleryDetailView: UIViewController {
     }
 }
 
-extension ChattingRoomGalleryDetailView: UIScrollViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let pageWidth = scrollView.frame.size.width
-        let currentPage = Int(scrollView.contentOffset.x / pageWidth) + 1
-        self.navigationItem.title = "\(currentPage) / \(galleryImages.count)"
-    }
-}
