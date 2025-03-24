@@ -17,7 +17,6 @@ class ChattingRoomGalleryView: UIViewController {
     
     var arr_GalleryImage: [GalleryImageModel] = []
     var groupedImages: [String: [GalleryImageModel]] = [:]
-    var arr_imageDetail: [ImageDetailModel] = []
     
     private lazy var cv_fileBox: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -69,8 +68,6 @@ class ChattingRoomGalleryView: UIViewController {
         
         for image in arr_GalleryImage {
             let date = image.date.components(separatedBy: ".")[0]
-            let imageUrl = image.url
-            arr_imageDetail.append(ImageDetailModel(imageUrl: imageUrl))
             if var images = groupedImages[date] {
                 images.append(image)
                 groupedImages[date] = images
@@ -124,26 +121,30 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
         return Array(groupedImages.keys).count
     }
     
+    // image select action
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let dates = Array(groupedImages.keys).sorted()
-        let images = groupedImages[dates[indexPath.section]] ?? []
-        let selectedImageURL = images[indexPath.item].url
+        arr_GalleryImage[indexPath.row]
+        
+        print(arr_GalleryImage[indexPath.row])
     }
     
 }
 
 extension ChattingRoomGalleryView: UICollectionViewDelegateFlowLayout {
     
+    // image view 간 세로 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 6
     }
     
+    // image view 간 가로 간격
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 4
     }
     
+    // 이미지 사이즈 설정
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = collectionView.frame.width / 3 - 4
-        return CGSize(width: size, height: size)
+        let size = collectionView.frame.width / 3 - 4   /// collectionView 3칸 사이간격 4
+        return CGSize(width: size, height: size)        /// imageView 정사각형
     }
 }
