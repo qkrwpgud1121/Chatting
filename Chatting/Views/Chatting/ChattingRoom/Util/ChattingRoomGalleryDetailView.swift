@@ -95,6 +95,10 @@ class ChattingRoomGalleryDetailView: UIViewController {
         contentView.flex.layout(mode: .adjustWidth)
         
         scrollView.contentSize = contentView.frame.size
+        
+        if selectedImageIndex < galleryImages.count {
+            scrollView.setContentOffset(CGPoint(x: safeAreaWidth * CGFloat(selectedImageIndex), y: 0), animated: false)
+        }
     }
 }
 

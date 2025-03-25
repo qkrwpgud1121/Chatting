@@ -125,10 +125,19 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
     // image select action
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        let dates = Array(groupedImages.keys).sorted()
+        var totalIndex = 0
+        
+        for i in 0..<indexPath.section {
+            totalIndex += groupedImages[dates[i]]?.count ?? 0
+        }
+        
+        let selectedImageIndex = totalIndex + indexPath.item
+        
         let galleryDetailVC = ChattingRoomGalleryDetailView()
         galleryDetailVC.chatRoomName = chatRoomName
         galleryDetailVC.galleryImages = arr_GalleryImage
-        galleryDetailVC.selectedImageIndex = indexPath.row
+        galleryDetailVC.selectedImageIndex = selectedImageIndex
         let navigationController = UINavigationController(rootViewController: galleryDetailVC)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)
