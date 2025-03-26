@@ -77,6 +77,14 @@ class ChattingRoomGalleryView: UIViewController {
             }
         }
         
+        arr_GalleryImage.removeAll()
+        
+        let dates = Array(groupedImages.keys).sorted()
+        for date in dates {
+            if let images = groupedImages[date] {
+                arr_GalleryImage.append(contentsOf: images)
+            }
+        }
     }
     
 }
@@ -136,7 +144,7 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
         
         let galleryDetailVC = ChattingRoomGalleryDetailView()
         galleryDetailVC.chatRoomName = chatRoomName
-        galleryDetailVC.galleryImages = arr_GalleryImage
+        galleryDetailVC.arr_GalleryImage = arr_GalleryImage
         galleryDetailVC.selectedImageIndex = selectedImageIndex
         let navigationController = UINavigationController(rootViewController: galleryDetailVC)
         navigationController.modalPresentationStyle = .fullScreen

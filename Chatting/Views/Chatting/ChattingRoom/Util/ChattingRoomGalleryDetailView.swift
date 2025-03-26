@@ -12,7 +12,7 @@ import PinLayout
 class ChattingRoomGalleryDetailView: UIViewController {
     
     let common = Common()
-    var galleryImages: [GalleryImageModel] = []
+    var arr_GalleryImage: [GalleryImageModel] = []
     
     var chatRoomName: String = ""
     var selectedImageIndex: Int = 0
@@ -72,7 +72,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
         
         contentView.flex.direction(.row).define { flex in
             
-            for image in galleryImages {
+            for image in arr_GalleryImage {
                 let profileImageView: UIImageView = {
                     let imageView = UIImageView()
                     imageView.image = UIImage(named: "\(image.url)")
@@ -96,7 +96,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
         
         scrollView.contentSize = contentView.frame.size
         
-        if selectedImageIndex < galleryImages.count {
+        if selectedImageIndex < arr_GalleryImage.count {
             scrollView.setContentOffset(CGPoint(x: safeAreaWidth * CGFloat(selectedImageIndex), y: 0), animated: false)
         }
     }
