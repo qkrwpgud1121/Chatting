@@ -20,7 +20,6 @@ class ChattingRoomGalleryDetailView: UIViewController {
     let rootFlexView = UIView()
     let scrollView = UIScrollView()
     let contentView = UIView()
-    let bottomBar = UIView()
     
     let safeAreaWidth = UIScreen.main.bounds.width
     let safeAreaHeight = UIScreen.main.bounds.height
@@ -29,6 +28,12 @@ class ChattingRoomGalleryDetailView: UIViewController {
         let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
         button.tintColor = .white
         return button
+    }()
+    
+    let bottomBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = .blue
+        return view
     }()
     
     private lazy var btn_download: UIButton = {
@@ -83,27 +88,56 @@ class ChattingRoomGalleryDetailView: UIViewController {
         rootFlexView.backgroundColor = .black
         
         view.addSubview(rootFlexView)
-        rootFlexView.addSubview(scrollView)
-        scrollView.addSubview(contentView)
         
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isPagingEnabled = true
         
-        contentView.flex.direction(.row).define { flex in
-            
-            for image in arr_GalleryImage {
-                let profileImageView: UIImageView = {
-                    let imageView = UIImageView()
-                    imageView.image = UIImage(named: "\(image.url)")
-                    imageView.contentMode = .scaleAspectFit
-                    return imageView
-                }()
-                
-                flex.addItem(profileImageView).width(safeAreaWidth)
+        rootFlexView.flex.define { flex in
+            flex.addItem(scrollView).direction(.row).define { scrollView in
+                scrollView.addItem(contentView).define { contentView in
+                    for image in arr_GalleryImage {
+                        let profileImageView: UIImageView = {
+                            let imageView = UIImageView()
+                            imageView.image = UIImage(named: "\(image.url)")
+                            imageView.contentMode = .scaleAspectFit
+                            return imageView
+                        }()
+                        
+                        flex.addItem(profileImageView).width(safeAreaWidth)
+                    }
+                }
             }
             
-            
+            flex.addItem(bottomBar).define { bottomBar in
+                bottomBar.addItem(btn_download)
+                bottomBar.addItem(btn_share)
+                bottomBar.addItem(btn_delete)
+            }
         }
+        
+        
+        
+        
+//        rootFlexView.addSubview(scrollView)
+//        rootFlexView.addSubview(bottomBar)
+//        scrollView.addSubview(contentView)
+//        
+//        
+//        
+//        contentView.flex.direction(.row).define { flex in
+//            
+//            for image in arr_GalleryImage {
+//                let profileImageView: UIImageView = {
+//                    let imageView = UIImageView()
+//                    imageView.image = UIImage(named: "\(image.url)")
+//                    imageView.contentMode = .scaleAspectFit
+//                    return imageView
+//                }()
+//                
+//                flex.addItem(profileImageView).width(safeAreaWidth)
+//            }
+//        }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -120,6 +154,8 @@ class ChattingRoomGalleryDetailView: UIViewController {
         if selectedImageIndex < arr_GalleryImage.count {
             scrollView.setContentOffset(CGPoint(x: safeAreaWidth * CGFloat(selectedImageIndex), y: 0), animated: false)
         }
+        
+        bottomBar.pin.bottom(view.pin.safeArea).width(view.frame.size.width).height(46)
     }
 }
 
