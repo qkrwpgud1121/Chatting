@@ -20,12 +20,31 @@ class ChattingRoomGalleryDetailView: UIViewController {
     let rootFlexView = UIView()
     let scrollView = UIScrollView()
     let contentView = UIView()
+    let bottomBar = UIView()
     
     let safeAreaWidth = UIScreen.main.bounds.width
     let safeAreaHeight = UIScreen.main.bounds.height
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
+        button.tintColor = .white
+        return button
+    }()
+    
+    private lazy var btn_download: UIButton = {
+        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "arrow.down.to.line"))
+        button.tintColor = .white
+        return button
+    }()
+    
+    private lazy var btn_share: UIButton = {
+        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "square.and.arrow.up"))
+        button.tintColor = .white
+        return button
+    }()
+    
+    private lazy var btn_delete: UIButton = {
+        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "trash"))
         button.tintColor = .white
         return button
     }()
@@ -82,6 +101,8 @@ class ChattingRoomGalleryDetailView: UIViewController {
                 
                 flex.addItem(profileImageView).width(safeAreaWidth)
             }
+            
+            
         }
     }
     

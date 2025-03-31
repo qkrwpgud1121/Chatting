@@ -10,8 +10,8 @@ PODS:
     - GoogleUtilities/Environment (~> 8.0)
     - GoogleUtilities/UserDefaults (~> 8.0)
     - PromisesObjC (~> 2.4)
-  - FlexLayout (2.1.0):
-    - Yoga
+  - FlexLayout (2.2.0):
+    - Yoga (= 3.2.1)
   - GoogleSignIn (8.0.0):
     - AppAuth (< 2.0, >= 1.7.3)
     - AppCheckCore (~> 11.0)
@@ -71,15 +71,15 @@ PODS:
     - KakaoSDKAuth (= 2.22.7)
   - PinLayout (1.10.5)
   - PromisesObjC (2.4.0)
-  - RxCocoa (6.8.0):
-    - RxRelay (= 6.8.0)
-    - RxSwift (= 6.8.0)
+  - RxCocoa (6.9.0):
+    - RxRelay (= 6.9.0)
+    - RxSwift (= 6.9.0)
   - RxKeyboard (2.0.0):
     - RxCocoa (~> 6.0)
     - RxSwift (~> 6.0)
-  - RxRelay (6.8.0):
-    - RxSwift (= 6.8.0)
-  - RxSwift (6.8.0)
+  - RxRelay (6.9.0):
+    - RxSwift (= 6.9.0)
+  - RxSwift (6.9.0)
   - Yoga (3.2.1)
 
 DEPENDENCIES:
@@ -125,7 +125,7 @@ SPEC CHECKSUMS:
   Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   AppAuth: d4f13a8fe0baf391b2108511793e4b479691fb73
   AppCheckCore: cc8fd0a3a230ddd401f326489c99990b013f0c4f
-  FlexLayout: bf58f5dd86c04d32c057542bb6540e328df73a94
+  FlexLayout: a8947ca2446760b5203ba5a3d862023c92a82fce
   GoogleSignIn: ce8c89bb9b37fb624b92e7514cc67335d1e277e4
   GoogleUtilities: 26a3abef001b6533cf678d3eb38fd3f614b7872d
   GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
@@ -144,10 +144,10 @@ SPEC CHECKSUMS:
   KakaoSDKUser: 4c9cf1da78710d19d0b2c2dd32d1a44c544cdfa4
   PinLayout: f6c2b63a5a5b24864064e1d15c67de41b4e74748
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  RxCocoa: 2d33c1e1e5d66492052ad46b11024ae287572880
+  RxCocoa: ac16414696ae706516be3e1ab00fcce5bdc9be8a
   RxKeyboard: 4f5863f43b4ff0cbb2a20b94688d6b80c8a43c14
-  RxRelay: 335c78b926a2aea8d863a6d25f1ed3b5ad8e8705
-  RxSwift: 4e28be97cbcfeee614af26d83415febbf2bf6f45
+  RxRelay: 6b0c930e5cef57d5fe2032571e5e65b78e3cbdb1
+  RxSwift: 31649ace6aceeb422e16ff71c60804f9c3281ed9
   Yoga: 636ce73bd247407928a7df089f3bc3675916b3ff
 
 PODFILE CHECKSUM: 59805ac49728e0b2b3ee16ceb4a9c3d0c50edcd8
