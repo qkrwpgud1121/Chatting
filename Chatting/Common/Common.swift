@@ -12,6 +12,8 @@ class Common {
     
     let commonBasicColor = UIColor(hexCode: "769EFF")
     
+    let connectedScene = UIApplication.shared.connectedScenes.first
+    
     func getSafeAreaWidth() -> CGFloat {
         
         var safeAreaWidth: CGFloat = 0.0
@@ -21,6 +23,30 @@ class Common {
         }
         
         return safeAreaWidth
+    }
+    
+    func getTopInsets() -> CGFloat {
+        
+        var insets: CGFloat = 0.0
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first {
+            let safeAreaInset = window.safeAreaInsets
+            insets = safeAreaInset.top
+        }
+        
+        return insets
+    }
+    
+    func getBottomInsets() -> CGFloat {
+        
+        var insets: CGFloat = 0.0
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene, let window = windowScene.windows.first {
+            let safeAreaInset = window.safeAreaInsets
+            insets = safeAreaInset.bottom
+        }
+        
+        return insets
     }
     
     func buttonConfig(pointSize: CGFloat, image: String,
