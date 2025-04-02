@@ -146,9 +146,8 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
         galleryDetailVC.chatRoomName = chatRoomName
         galleryDetailVC.arr_GalleryImage = arr_GalleryImage
         galleryDetailVC.selectedImageIndex = selectedImageIndex
-        let navigationController = UINavigationController(rootViewController: galleryDetailVC)
-        navigationController.modalPresentationStyle = .fullScreen
-        self.present(navigationController, animated: true)
+        galleryDetailVC.modalPresentationStyle = .fullScreen
+        self.present(galleryDetailVC, animated: true)
     }
     
 }
