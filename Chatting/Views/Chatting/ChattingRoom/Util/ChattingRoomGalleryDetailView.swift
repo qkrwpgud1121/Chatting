@@ -41,6 +41,8 @@ class ChattingRoomGalleryDetailView: UIViewController {
         return button
     }()
     
+    let senderDataView = UIView()
+    
     private lazy var senderName: UILabel = {
         let label = UILabel()
         label.text = "senderName"
@@ -51,6 +53,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
     private lazy var sendDate: UILabel = {
         let label = UILabel()
         label.text = "sendDate"
+        label.font = .systemFont(ofSize: 13)
         label.textColor = .white
         return label
     }()
@@ -125,11 +128,11 @@ class ChattingRoomGalleryDetailView: UIViewController {
         
         rootFlexView.addSubview(topBar)
         
-        topBar.flex.direction(.row).alignItems(.end).paddingBottom(8).paddingHorizontal(16).backgroundColor(.red).define { bottomBar in
-            bottomBar.addItem(dismissButton).backgroundColor(.blue)
-            bottomBar.addItem().direction(.column).justifyContent(.center).backgroundColor(.cyan).define { senderData in
-                senderData.addItem(senderName)
-                senderData.addItem(sendDate)
+        topBar.flex.direction(.row).alignItems(.end).paddingBottom(8).paddingHorizontal(16).define { topBar in
+            topBar.addItem(dismissButton)
+            topBar.addItem(senderDataView).alignItems(.center).define { senderDataView in
+                senderDataView.addItem(senderName)
+                senderDataView.addItem(sendDate)
             }
         }
         
@@ -154,6 +157,9 @@ class ChattingRoomGalleryDetailView: UIViewController {
         
         topBar.pin.top().width(safeAreaWidth).height(common.getTopInsets() + 40)
         topBar.flex.layout()
+        
+        senderDataView.pin.bottomCenter(to: topBar.anchor.bottomCenter).margin(4)
+        senderDataView.flex.layout()
     }
     
 }
