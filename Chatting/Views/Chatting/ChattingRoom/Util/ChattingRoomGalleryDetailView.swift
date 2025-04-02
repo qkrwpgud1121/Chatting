@@ -19,12 +19,17 @@ class ChattingRoomGalleryDetailView: UIViewController {
     
     var chatRoomName: String = ""
     var selectedImageIndex: Int = 0
+    var viewMode: Bool = false
+    lazy var topBarHeight: CGFloat = common.getTopInsets() + 40
+    lazy var bottomBarHeight: CGFloat = common.getBottomInsets() + 49
     
     let rootFlexView = UIView()
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isPagingEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
+        scrollView.addGestureRecognizer(tapGesture)
         return scrollView
     }()
     let contentView = UIView()
@@ -118,22 +123,22 @@ class ChattingRoomGalleryDetailView: UIViewController {
             }
         }
         
+        rootFlexView.addSubview(topBar)
+        
+        topBar.flex.direction(.row).alignItems(.end).paddingBottom(8).paddingHorizontal(16).define { topBar in
+            topBar.addItem(dismissButton).size(30).marginRight(8).paddingBottom(16)
+            topBar.addItem().define { senderDataView in
+                senderDataView.addItem(senderName)
+                senderDataView.addItem(sendDate)
+            }
+        }
+        
         rootFlexView.addSubview(bottomBar)
         
         bottomBar.flex.direction(.row).alignItems(.start).justifyContent(.spaceAround).paddingTop(16).define { bottomBar in
             bottomBar.addItem(btn_download)
             bottomBar.addItem(btn_share)
             bottomBar.addItem(btn_delete)
-        }
-        
-        rootFlexView.addSubview(topBar)
-        
-        topBar.flex.direction(.row).alignItems(.end).paddingBottom(8).paddingHorizontal(16).define { topBar in
-            topBar.addItem(dismissButton)
-            topBar.addItem(senderDataView).alignItems(.center).define { senderDataView in
-                senderDataView.addItem(senderName)
-                senderDataView.addItem(sendDate)
-            }
         }
         
     }
@@ -152,14 +157,29 @@ class ChattingRoomGalleryDetailView: UIViewController {
             scrollView.setContentOffset(CGPoint(x: safeAreaWidth * CGFloat(selectedImageIndex), y: 0), animated: false)
         }
         
-        bottomBar.pin.bottom().width(safeAreaWidth).height(common.getBottomInsets() + 49)
-        bottomBar.flex.layout()
-        
-        topBar.pin.top().width(safeAreaWidth).height(common.getTopInsets() + 40)
+        topBarSetHeight(height: topBarHeight)
+        bottomBarSetHeight(height: bottomBarHeight)
+    }
+    
+    private func topBarSetHeight(height: CGFloat) {
+        topBar.pin.top().width(safeAreaWidth).height(height)
         topBar.flex.layout()
+    }
+    
+    private func bottomBarSetHeight(height: CGFloat) {
+        bottomBar.pin.bottom().width(safeAreaWidth).height(height)
+        bottomBar.flex.layout()
+    }
+    
+    @objc func viewTapped() {
         
-        senderDataView.pin.bottomCenter(to: topBar.anchor.bottomCenter).margin(4)
-        senderDataView.flex.layout()
+        viewMode.toggle()
+        
+        UIView.animate(withDuration: 0.3) {
+            
+            self.topBarSetHeight(height: self.viewMode ? 0 : self.topBarHeight)
+            self.bottomBarSetHeight(height: self.viewMode ? 0 : self.bottomBarHeight)
+        }
     }
     
 }
