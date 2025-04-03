@@ -13,4 +13,5 @@ struct GalleryImageModel: Codable {
     let size: Int
     let mimeType: String
     let name: String
+    let senderName: String
 }

@@ -26,6 +26,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
     let rootFlexView = UIView()
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        scrollView.delegate = self
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.isPagingEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(viewTapped))
@@ -127,7 +128,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
         
         topBar.flex.direction(.row).alignItems(.end).paddingBottom(8).paddingHorizontal(16).define { topBar in
             topBar.addItem(dismissButton).size(30).marginRight(8).paddingBottom(16)
-            topBar.addItem().define { senderDataView in
+            topBar.addItem().grow(1).define { senderDataView in
                 senderDataView.addItem(senderName)
                 senderDataView.addItem(sendDate)
             }
@@ -159,6 +160,10 @@ class ChattingRoomGalleryDetailView: UIViewController {
         
         topBarSetHeight(height: topBarHeight)
         bottomBarSetHeight(height: bottomBarHeight)
+        
+        senderName.text = arr_GalleryImage[selectedImageIndex].senderName
+        sendDate.text = arr_GalleryImage[selectedImageIndex].date
+        
     }
     
     private func topBarSetHeight(height: CGFloat) {
@@ -184,3 +189,11 @@ class ChattingRoomGalleryDetailView: UIViewController {
     
 }
 
+extension ChattingRoomGalleryDetailView: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        let page = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
+        senderName.text = arr_GalleryImage[page].senderName
+        sendDate.text = arr_GalleryImage[page].date
+    }
+}
