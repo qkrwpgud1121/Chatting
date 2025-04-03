@@ -17,9 +17,17 @@ class ChattingRoomSegmentView: UIViewController {
     private let rootFlexView = UIView()
     
     var chatRoomName: String = ""
+    var selectMode: Bool = false
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
+        button.tintColor = .black
+        return button
+    }()
+    
+    private lazy var btn_selectCancel: UIButton = {
+        let button = UIButton()
+        button.setTitle("취소", for: .normal)
         button.tintColor = .black
         return button
     }()
@@ -69,13 +77,13 @@ class ChattingRoomSegmentView: UIViewController {
         
         addChild(pageView)
         pageView.didMove(toParent: self)
-        
         pageView.setViewControllers([pageViewControllers.first!], direction: .forward, animated: true)
     }
     
     private func setupNavigationBar() {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: dismissButton)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btn_selectCancel)
         self.navigationItem.title = chatRoomName
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -91,6 +99,10 @@ class ChattingRoomSegmentView: UIViewController {
         
         dismissButton.addAction(UIAction { _ in
             self.dismiss(animated: true)
+        }, for: .touchUpInside)
+        
+        btn_selectCancel.addAction(UIAction { _ in
+            
         }, for: .touchUpInside)
         
         initUI()

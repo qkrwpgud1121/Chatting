@@ -19,13 +19,19 @@ class ChattingRoomGalleryView: UIViewController {
     var arr_GalleryImage: [GalleryImageModel] = []
     var groupedImages: [String: [GalleryImageModel]] = [:]
     
-    private lazy var cv_fileBox: UICollectionView = {
+    private lazy var cv_gallery: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(ChattingRoomCVHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ChattingRoomCVHeaderView.identifier)
         collectionView.register(ChattingRoomGalleryCell.self, forCellWithReuseIdentifier: ChattingRoomGalleryCell.identifier)
+        collectionView.allowsMultipleSelection = true
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        
+        collectionView.addGestureRecognizer(longPressGesture)
+        collectionView.addGestureRecognizer(panGesture)
         return collectionView
     }()
     
@@ -42,7 +48,7 @@ class ChattingRoomGalleryView: UIViewController {
         rootFlexView.backgroundColor = .white
         
         rootFlexView.flex.define { flex in
-            flex.addItem(cv_fileBox)
+            flex.addItem(cv_gallery)
         }
     }
     
@@ -52,7 +58,15 @@ class ChattingRoomGalleryView: UIViewController {
         rootFlexView.pin.all(view.pin.safeArea)
         rootFlexView.flex.layout()
         
-        cv_fileBox.pin.all()
+        cv_gallery.pin.all()
+    }
+    
+    @objc private func handleLongPress( _ gesture: UILongPressGestureRecognizer) {
+        
+    }
+    
+    @objc private func handlePan( _ gesture: UIPanGestureRecognizer) {
+        
     }
     
     private func parsing() {
@@ -170,3 +184,59 @@ extension ChattingRoomGalleryView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: size, height: size)        /// imageView 정사각형
     }
 }
+
+//
+//private var selectedIndexPaths = Set<IndexPath>()
+//
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//        collectionView.allowsMultipleSelection = true  // 다중 선택 허용
+//
+//        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+//
+//        collectionView.addGestureRecognizer(longPressGesture)
+//        collectionView.addGestureRecognizer(panGesture)
+//    }
+//
+//    @objc private func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+//        if gesture.state == .began {
+//            let location = gesture.location(in: collectionView)
+//            if let indexPath = collectionView.indexPathForItem(at: location) {
+//                selectItem(at: indexPath)
+//            }
+//        }
+//    }
+//
+//    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
+//        let location = gesture.location(in: collectionView)
+//        if let indexPath = collectionView.indexPathForItem(at: location) {
+//            selectItem(at: indexPath)
+//        }
+//    }
+//
+//    private func selectItem(at indexPath: IndexPath) {
+//        if selectedIndexPaths.contains(indexPath) {
+//            selectedIndexPaths.remove(indexPath)
+//            collectionView.deselectItem(at: indexPath, animated: true)
+//        } else {
+//            selectedIndexPaths.insert(indexPath)
+//            collectionView.selectItem(at: indexPath, animated: true, scrollPosition: [])
+//        }
+//        collectionView.reloadItems(at: [indexPath]) // 셀 UI 업데이트
+//    }
+//
+//    // MARK: - UICollectionView DataSource & Delegate
+//    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return 50
+//    }
+//
+//    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+//
+//        // 선택 상태에 따른 배경 색 변경
+//        cell.backgroundColor = selectedIndexPaths.contains(indexPath) ? UIColor.blue.withAlphaComponent(0.5) : .lightGray
+//
+//        return cell
+//    }
