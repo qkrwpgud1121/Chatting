@@ -100,6 +100,18 @@ class ChattingRoomGalleryDetailView: UIViewController {
             self.dismiss(animated: true)
         }, for: .touchUpInside)
         
+        btn_download.addAction(UIAction { _ in
+            
+        }, for: .touchUpInside)
+        
+        btn_share.addAction(UIAction { _ in
+            
+        }, for: .touchUpInside)
+        
+        btn_delete.addAction(UIAction { [weak self] _ in
+            self?.makeAlert(title: "삭제", message: "삭제하시겠습니까?", confirmAction: {print("delete")} )
+        }, for: .touchUpInside)
+        
         initUI()
     }
     
