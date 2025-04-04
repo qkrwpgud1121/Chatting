@@ -13,6 +13,8 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
     
     static let identifier: String = "ChattingRoomGalleryCell"
     
+    let common = Common()
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -44,5 +46,17 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
         imageView.image = UIImage(named: imageURL)
     }
     
+    override var isSelected: Bool {
+        didSet {
+            setSelected(isSelected, animated: false)
+        }
+    }
+    
+    func setSelected(_ selected: Bool, animated: Bool) {
+        if selected {
+            imageView.layer.borderColor = common.commonBasicColor.cgColor
+            imageView.layer.borderWidth = 2
+        }
+    }
     
 }
