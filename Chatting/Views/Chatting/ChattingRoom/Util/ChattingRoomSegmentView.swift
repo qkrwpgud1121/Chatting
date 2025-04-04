@@ -101,7 +101,8 @@ class ChattingRoomSegmentView: UIViewController {
         }, for: .touchUpInside)
         
         btn_selectMode.addAction(UIAction { _ in
-            
+            self.selectMode.toggle()
+            ChattingRoomGalleryView.selectMode(mode: self.selectMode)
         }, for: .touchUpInside)
         
         initUI()

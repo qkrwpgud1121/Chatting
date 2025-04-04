@@ -62,6 +62,10 @@ class ChattingRoomGalleryView: UIViewController {
         
     }
     
+    static func selectMode(mode: Bool) {
+        print("selectMode: \(mode)")
+    }
+    
     private func parsing() {
         
         let url = Bundle.main.url(forResource: "GalleryImage", withExtension: "json")!
