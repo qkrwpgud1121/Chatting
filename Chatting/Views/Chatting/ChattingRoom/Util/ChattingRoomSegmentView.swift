@@ -25,9 +25,8 @@ class ChattingRoomSegmentView: UIViewController {
         return button
     }()
     
-    private lazy var btn_selectCancel: UIButton = {
-        let button = UIButton()
-        button.setTitle("취소", for: .normal)
+    private lazy var btn_selectMode: UIButton = {
+        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
         button.tintColor = .black
         return button
     }()
@@ -83,7 +82,7 @@ class ChattingRoomSegmentView: UIViewController {
     private func setupNavigationBar() {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: dismissButton)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btn_selectCancel)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: btn_selectMode)
         self.navigationItem.title = chatRoomName
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -101,7 +100,7 @@ class ChattingRoomSegmentView: UIViewController {
             self.dismiss(animated: true)
         }, for: .touchUpInside)
         
-        btn_selectCancel.addAction(UIAction { _ in
+        btn_selectMode.addAction(UIAction { _ in
             
         }, for: .touchUpInside)
         

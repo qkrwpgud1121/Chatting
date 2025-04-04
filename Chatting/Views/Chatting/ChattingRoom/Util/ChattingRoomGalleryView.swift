@@ -27,11 +27,8 @@ class ChattingRoomGalleryView: UIViewController {
         collectionView.register(ChattingRoomCVHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ChattingRoomCVHeaderView.identifier)
         collectionView.register(ChattingRoomGalleryCell.self, forCellWithReuseIdentifier: ChattingRoomGalleryCell.identifier)
         collectionView.allowsMultipleSelection = true
-//        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        
-//        collectionView.addGestureRecognizer(longPressGesture)
-        collectionView.addGestureRecognizer(panGesture)
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPress(_ :)))
+        collectionView.addGestureRecognizer(longPressGesture)
         return collectionView
     }()
     
@@ -61,20 +58,7 @@ class ChattingRoomGalleryView: UIViewController {
         cv_gallery.pin.all()
     }
     
-//    @objc private func handleLongPress( _ gesture: UILongPressGestureRecognizer) {
-//        if gesture.state != .ended { return }
-//        
-//        let collectionView = gesture.location(in: self.cv_gallery)
-//        
-//        if let indexPath = self.cv_gallery.indexPathForItem(at: collectionView) {
-//            let cell = self.cv_gallery.cellForItem(at: indexPath)
-//            self.cv_gallery.selectItem(at: indexPath, animated: true, scrollPosition: [])
-//        } else {
-//            print("couldn't find indexPath")
-//        }
-//    }
-    
-    @objc private func handlePan( _ gesture: UIPanGestureRecognizer) {
+    @objc private func longPress(_ gesture: UILongPressGestureRecognizer) {
         
     }
     

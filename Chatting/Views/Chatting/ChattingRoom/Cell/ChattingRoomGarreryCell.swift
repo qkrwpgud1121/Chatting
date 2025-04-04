@@ -48,14 +48,16 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            setSelected(isSelected, animated: false)
+            //setSelected()
         }
     }
     
-    func setSelected(_ selected: Bool, animated: Bool) {
-        if selected {
+    func setSelected() {
+        if isSelected {
             imageView.layer.borderColor = common.commonBasicColor.cgColor
             imageView.layer.borderWidth = 2
+        } else {
+            imageView.layer.borderWidth = 0
         }
     }
     
