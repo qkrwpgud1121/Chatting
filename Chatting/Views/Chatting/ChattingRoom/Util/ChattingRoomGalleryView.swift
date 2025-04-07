@@ -65,7 +65,7 @@ class ChattingRoomGalleryView: UIViewController {
     
     func viewSelectMode(mode: Bool) {
         selectMode = mode
-        print("selectMode: \(mode)")
+        cv_gallery.reloadData()
     }
     
     private func parsing() {
@@ -145,6 +145,8 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
     
     // image select action
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        guard selectMode else { return }
         
         let dates = Array(groupedImages.keys).sorted()
         var totalIndex = 0

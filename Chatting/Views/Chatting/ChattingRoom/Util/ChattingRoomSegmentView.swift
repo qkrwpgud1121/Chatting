@@ -109,7 +109,9 @@ class ChattingRoomSegmentView: UIViewController {
                 self.pageView.delegate = self
                 self.pageView.dataSource = self
             }
-            ChattingRoomGalleryView().viewSelectMode(mode: self.selectMode)
+            if let galleryVC = self.pageViewControllers.first as? ChattingRoomGalleryView {
+                galleryVC.viewSelectMode(mode: self.selectMode)
+            }
         }, for: .touchUpInside)
         
         initUI()

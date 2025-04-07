@@ -14,6 +14,7 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
     static let identifier: String = "ChattingRoomGalleryCell"
     
     let common = Common()
+    var cellSelectMode: Bool = false
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -23,6 +24,10 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
     private let imageSelected: UIView = {
         let view = UIView()
         view.isHidden = true
+        view.backgroundColor = .white
+        view.layer.cornerRadius = 5
+        view.layer.borderWidth = 1
+        view.layer.borderColor = UIColor.lightGray.cgColor
         return view
     }()
     
@@ -30,7 +35,9 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.flex.define { flex in
-            flex.addItem(imageView)
+            flex.addItem(imageView).define { imageView in
+                imageView.addItem(imageSelected)
+            }
         }
     }
     
@@ -50,17 +57,16 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
     }
     
     func configure(imageURL: String, selectMode: Bool) {
-        
-        if selectMode {
-            imageSelected.isHidden = false
-        }
-        
+        cellSelectMode = selectMode
         imageView.image = UIImage(named: imageURL)
+        imageSelected.isHidden = !selectMode
     }
     
     override var isSelected: Bool {
         didSet {
-            //setSelected()
+            if cellSelectMode {
+                setSelected()
+            }
         }
     }
     
