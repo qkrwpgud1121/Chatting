@@ -16,6 +16,7 @@ class ChattingRoomGalleryView: UIViewController {
     let rootFlexView = UIView()
     
     var chatRoomName: String = ""
+    var selectMode: Bool = false
     var arr_GalleryImage: [GalleryImageModel] = []
     var groupedImages: [String: [GalleryImageModel]] = [:]
     
@@ -62,7 +63,8 @@ class ChattingRoomGalleryView: UIViewController {
         
     }
     
-    static func selectMode(mode: Bool) {
+    func viewSelectMode(mode: Bool) {
+        selectMode = mode
         print("selectMode: \(mode)")
     }
     
@@ -116,7 +118,7 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
         let dates = Array(groupedImages.keys).sorted()
         let images = groupedImages[dates[indexPath.section]] ?? []
         
-        cell.configure(imageURL: images[indexPath.item].url)
+        cell.configure(imageURL: images[indexPath.item].url, selectMode: selectMode)
         
         return cell
     }

@@ -20,6 +20,12 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let imageSelected: UIView = {
+        let view = UIView()
+        view.isHidden = true
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -39,10 +45,16 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
         contentView.flex.layout()
         
         imageView.pin.all()
+        imageSelected.pin.topRight(to: imageView.anchor.topRight)
         
     }
     
-    func configure(imageURL: String) {
+    func configure(imageURL: String, selectMode: Bool) {
+        
+        if selectMode {
+            imageSelected.isHidden = false
+        }
+        
         imageView.image = UIImage(named: imageURL)
     }
     
