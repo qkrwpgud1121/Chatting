@@ -14,6 +14,7 @@ class ChattingRoomGalleryView: UIViewController {
     let common = Common()
     
     let rootFlexView = UIView()
+    let selectModeImagePopup = UIImageView()
     
     var chatRoomName: String = ""
     var selectMode: Bool = false
@@ -61,6 +62,31 @@ class ChattingRoomGalleryView: UIViewController {
     
     @objc private func longPress(_ gesture: UILongPressGestureRecognizer) {
         
+        gesture.minimumPressDuration = 1.0
+        
+        switch gesture.state {
+        case .began:
+        case .ended:
+        default:
+            break
+        }
+        
+        guard gesture.state == .began else { return }
+        
+        let point = gesture.location(in: cv_gallery)
+        
+        guard let indexPath = cv_gallery.indexPathForItem(at: point),
+              let cell = cv_gallery.cellForItem(at: indexPath) as? ChattingRoomGalleryCell,
+              let image = cell.imageView.image
+        else { return }
+        
+        let imageSize = image.size
+        let width = imageSize.width
+        let height = imageSize.height
+        
+        if width > height {
+            
+        }
     }
     
     func viewSelectMode(mode: Bool) {
@@ -146,23 +172,23 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
     // image select action
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard selectMode else { return }
-        
-        let dates = Array(groupedImages.keys).sorted()
-        var totalIndex = 0
-        
-        for i in 0..<indexPath.section {
-            totalIndex += groupedImages[dates[i]]?.count ?? 0
+        if !selectMode {
+            let dates = Array(groupedImages.keys).sorted()
+            var totalIndex = 0
+            
+            for i in 0..<indexPath.section {
+                totalIndex += groupedImages[dates[i]]?.count ?? 0
+            }
+            
+            let selectedImageIndex = totalIndex + indexPath.item
+            
+            let galleryDetailVC = ChattingRoomGalleryDetailView()
+            galleryDetailVC.chatRoomName = chatRoomName
+            galleryDetailVC.arr_GalleryImage = arr_GalleryImage
+            galleryDetailVC.selectedImageIndex = selectedImageIndex
+            galleryDetailVC.modalPresentationStyle = .fullScreen
+            self.present(galleryDetailVC, animated: true)
         }
-        
-        let selectedImageIndex = totalIndex + indexPath.item
-        
-        let galleryDetailVC = ChattingRoomGalleryDetailView()
-        galleryDetailVC.chatRoomName = chatRoomName
-        galleryDetailVC.arr_GalleryImage = arr_GalleryImage
-        galleryDetailVC.selectedImageIndex = selectedImageIndex
-        galleryDetailVC.modalPresentationStyle = .fullScreen
-        self.present(galleryDetailVC, animated: true)
     }
     
 }

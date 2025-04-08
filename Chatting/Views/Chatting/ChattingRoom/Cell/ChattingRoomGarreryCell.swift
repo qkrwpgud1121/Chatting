@@ -16,28 +16,27 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
     let common = Common()
     var cellSelectMode: Bool = false
     
-    private let imageView: UIImageView = {
+    let imageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
     
-    private let imageSelected: UIView = {
-        let view = UIView()
-        view.isHidden = true
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 5
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.lightGray.cgColor
-        return view
+    private let btn_select: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .white.withAlphaComponent(0.5)
+        button.layer.cornerRadius = 15
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.isHidden = true
+        return button
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         contentView.flex.define { flex in
-            flex.addItem(imageView).define { imageView in
-                imageView.addItem(imageSelected)
-            }
+            flex.addItem(imageView)
+            flex.addItem(btn_select).size(30)
         }
     }
     
@@ -52,14 +51,14 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
         contentView.flex.layout()
         
         imageView.pin.all()
-        imageSelected.pin.topRight(to: imageView.anchor.topRight)
+        btn_select.pin.topRight(to: imageView.anchor.topRight)
         
     }
     
     func configure(imageURL: String, selectMode: Bool) {
         cellSelectMode = selectMode
         imageView.image = UIImage(named: imageURL)
-        imageSelected.isHidden = !selectMode
+        btn_select.isHidden = !selectMode
     }
     
     override var isSelected: Bool {
@@ -72,11 +71,26 @@ class ChattingRoomGalleryCell: UICollectionViewCell {
     
     func setSelected() {
         if isSelected {
-            imageView.layer.borderColor = common.commonBasicColor.cgColor
-            imageView.layer.borderWidth = 2
+            setSelectedConfig()
         } else {
-            imageView.layer.borderWidth = 0
+            setDeselectedConfig()
         }
+    }
+    
+    func setSelectedConfig() {
+        
+        imageView.layer.borderColor = common.commonBasicColor.cgColor
+        imageView.layer.borderWidth = 2
+        btn_select.backgroundColor = common.commonBasicColor
+        btn_select.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        btn_select.tintColor = .white
+    }
+    
+    func setDeselectedConfig() {
+        
+        imageView.layer.borderWidth = 0
+        btn_select.backgroundColor = .white.withAlphaComponent(0.5)
+        btn_select.setImage(nil, for: .normal)
     }
     
 }
