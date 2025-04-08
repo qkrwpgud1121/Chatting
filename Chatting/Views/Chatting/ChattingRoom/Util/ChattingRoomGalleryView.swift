@@ -14,7 +14,6 @@ class ChattingRoomGalleryView: UIViewController {
     let common = Common()
     
     let rootFlexView = UIView()
-    let selectModeImagePopup = UIImageView()
     
     var chatRoomName: String = ""
     var selectMode: Bool = false
@@ -64,12 +63,12 @@ class ChattingRoomGalleryView: UIViewController {
         
         gesture.minimumPressDuration = 1.0
         
-        switch gesture.state {
-        case .began:
-        case .ended:
-        default:
-            break
-        }
+//        switch gesture.state {
+//        case .began:
+//        case .ended:
+//        default:
+//            break
+//        }
         
         guard gesture.state == .began else { return }
         
@@ -84,8 +83,12 @@ class ChattingRoomGalleryView: UIViewController {
         let width = imageSize.width
         let height = imageSize.height
         
+        let vc = GalleryLongPressView()
+        vc.modalPresentationStyle = .overFullScreen
+        vc.modalTransitionStyle = .crossDissolve
+        present(vc, animated: true)
+        
         if width > height {
-            
         }
     }
     
