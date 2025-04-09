@@ -61,14 +61,7 @@ class ChattingRoomGalleryView: UIViewController {
     
     @objc private func longPress(_ gesture: UILongPressGestureRecognizer) {
         
-        gesture.minimumPressDuration = 1.0
-        
-//        switch gesture.state {
-//        case .began:
-//        case .ended:
-//        default:
-//            break
-//        }
+        gesture.minimumPressDuration = 0.5
         
         guard gesture.state == .began else { return }
         
@@ -82,14 +75,26 @@ class ChattingRoomGalleryView: UIViewController {
         let imageSize = image.size
         let width = imageSize.width
         let height = imageSize.height
+        let ratio = width / height
+        
+        let screen = view.frame.size.width
         
         let vc = GalleryLongPressView()
+        if width > height {
+            vc.viewWidth = screen - 32
+            vc.viewHeight = screen / ratio
+        } else {
+            vc.viewWidth = screen * ratio
+            vc.viewHeight = screen
+        }
+        vc.selectImage = image
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
-        present(vc, animated: true)
         
-        if width > height {
+        if self.selectMode {
+            present(vc, animated: true)
         }
+        
     }
     
     func viewSelectMode(mode: Bool) {

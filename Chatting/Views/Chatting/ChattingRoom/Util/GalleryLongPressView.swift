@@ -9,29 +9,31 @@ import Foundation
 import UIKit
 import FlexLayout
 import PinLayout
-import AVFoundation
 
 final class GalleryLongPressView: UIViewController {
     
-    private lazy var blurEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .light)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPopup))
-        blurView.addGestureRecognizer(tapGesture)
-        return blurView
-    }()
+    var viewWidth: CGFloat = 0
+    var viewHeight: CGFloat = 0
+    var selectImage = UIImage()
     
     private lazy var rootFlexView: UIView = {
         let view = UIView()
-        view.backgroundColor = .blue
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPopup))
         view.addGestureRecognizer(tapGesture)
         return view
     }()
     
-    private let testView: UIView = {
-        let view = UIView()
+    private lazy var blurEffectView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        return blurView
+    }()
+    
+    private let imageView: UIImageView = {
+        let view = UIImageView()
+        view.layer.cornerRadius = 10
         view.backgroundColor = .white
+        view.clipsToBounds = true
         return view
     }()
     
@@ -39,9 +41,9 @@ final class GalleryLongPressView: UIViewController {
         super.viewDidLoad()
         view.addSubview(rootFlexView)
         
-        rootFlexView.flex.define { flex in
-            flex.addItem(testView).size(300)
-        }
+        rootFlexView.addSubview(blurEffectView)
+        rootFlexView.addSubview(imageView)
+        imageView.image = selectImage
         
     }
     
@@ -53,8 +55,9 @@ final class GalleryLongPressView: UIViewController {
         super.viewDidLayoutSubviews()
         
         rootFlexView.pin.all()
+        blurEffectView.pin.all()
         rootFlexView.flex.layout()
         
-        testView.pin.vCenter().hCenter()
+        imageView.pin.vCenter().hCenter().width(viewWidth).height(viewHeight)
     }
 }
