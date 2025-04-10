@@ -13,6 +13,7 @@ import PinLayout
 class ChattingRoomSegmentView: UIViewController {
     
     let common = Common()
+    let galleryView = ChattingRoomGalleryView()
     
     private let rootFlexView = UIView()
     
@@ -143,6 +144,19 @@ class ChattingRoomSegmentView: UIViewController {
             }
         }, for: .touchUpInside)
         
+        btn_download.addAction(UIAction { _ in
+            self.galleryView.downloadImage()
+        }, for: .touchUpInside)
+        
+        btn_share.addAction(UIAction { _ in
+            self.galleryView.shareImage()
+        }, for: .touchUpInside)
+        
+        btn_delete.addAction(UIAction { _ in
+            self.makeAlert(title: "삭제", message: "삭제하시겠습니까?", confirmAction: { self.galleryView.deleteImage() })
+            
+        }, for: .touchUpInside)
+        
         initUI()
     }
     
@@ -183,7 +197,9 @@ class ChattingRoomSegmentView: UIViewController {
     }
     
     @objc func segmentChanged() {
-        segmentChaged(index: segment.selectedSegmentIndex)
+        if !selectMode {
+            segmentChaged(index: segment.selectedSegmentIndex)
+        }
     }
     
     private func segmentChaged(index: Int) {

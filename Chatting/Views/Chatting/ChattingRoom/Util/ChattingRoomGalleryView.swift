@@ -54,7 +54,7 @@ class ChattingRoomGalleryView: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        rootFlexView.pin.all(view.pin.safeArea)
+        rootFlexView.pin.all()
         rootFlexView.flex.layout()
         
         cv_gallery.pin.all()
@@ -101,6 +101,18 @@ class ChattingRoomGalleryView: UIViewController {
     func viewSelectMode(mode: Bool) {
         selectMode = mode
         cv_gallery.reloadData()
+    }
+    
+    func downloadImage() {
+        print("download image")
+    }
+    
+    func shareImage() {
+        print("share image")
+    }
+    
+    func deleteImage() {
+        print("delete image")
     }
     
     private func parsing() {
@@ -181,23 +193,41 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
     // image select action
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        let dates = Array(groupedImages.keys).sorted()
+        var totalIndex = 0
+        
+        for i in 0..<indexPath.section {
+            totalIndex += groupedImages[dates[i]]?.count ?? 0
+        }
+        
+        let selectedImageIndex = totalIndex + indexPath.item
+        
         if !selectMode {
-            let dates = Array(groupedImages.keys).sorted()
-            var totalIndex = 0
-            
-            for i in 0..<indexPath.section {
-                totalIndex += groupedImages[dates[i]]?.count ?? 0
-            }
-            
-            let selectedImageIndex = totalIndex + indexPath.item
-            
             let galleryDetailVC = ChattingRoomGalleryDetailView()
             galleryDetailVC.chatRoomName = chatRoomName
             galleryDetailVC.arr_GalleryImage = arr_GalleryImage
             galleryDetailVC.selectedImageIndex = selectedImageIndex
             galleryDetailVC.modalPresentationStyle = .fullScreen
             self.present(galleryDetailVC, animated: true)
+        } else {
+            selectedImage.append(arr_GalleryImage[selectedImageIndex])
+            print("selected: \(selectedImage)")
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
+        let dates = Array(groupedImages.keys).sorted()
+        var totalIndex = 0
+        
+        for i in 0..<indexPath.section {
+            totalIndex += groupedImages[dates[i]]?.count ?? 0
+        }
+        
+        let deSelectedImageIndex = totalIndex + indexPath.item
+        let deSelectedImage = arr_GalleryImage[deSelectedImageIndex]
+        
+        selectedImage.removeAll { $0.url == deSelectedImage.url}
     }
     
 }
