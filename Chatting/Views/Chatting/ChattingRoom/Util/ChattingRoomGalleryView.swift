@@ -19,6 +19,7 @@ class ChattingRoomGalleryView: UIViewController {
     var selectMode: Bool = false
     var arr_GalleryImage: [GalleryImageModel] = []
     var groupedImages: [String: [GalleryImageModel]] = [:]
+    var selectedImage: [GalleryImageModel] = []
     
     private lazy var cv_gallery: UICollectionView = {
         let layout = UICollectionViewFlowLayout()

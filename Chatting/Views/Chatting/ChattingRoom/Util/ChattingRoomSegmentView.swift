@@ -18,6 +18,8 @@ class ChattingRoomSegmentView: UIViewController {
     
     var chatRoomName: String = ""
     var selectMode: Bool = false
+    let safeAreaWidth = UIScreen.main.bounds.width
+    lazy var bottomBarHeight: CGFloat = common.getBottomInsets() + 49
     
     private lazy var dismissButton: UIButton = {
         let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
@@ -69,6 +71,30 @@ class ChattingRoomSegmentView: UIViewController {
         return pageView
     }()
     
+    let bottomBar: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    private lazy var btn_download: UIButton = {
+        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "arrow.down.to.line"))
+        button.tintColor = .black
+        return button
+    }()
+    
+    private lazy var btn_share: UIButton = {
+        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "square.and.arrow.up"))
+        button.tintColor = .black
+        return button
+    }()
+    
+    private lazy var btn_delete: UIButton = {
+        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "trash"))
+        button.tintColor = .black
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -112,6 +138,9 @@ class ChattingRoomSegmentView: UIViewController {
             if let galleryVC = self.pageViewControllers.first as? ChattingRoomGalleryView {
                 galleryVC.viewSelectMode(mode: self.selectMode)
             }
+            UIView.animate(withDuration: 0.3) {
+                self.bottomBarSetHeight(height: self.selectMode ? self.bottomBarHeight : 0)
+            }
         }, for: .touchUpInside)
         
         initUI()
@@ -128,15 +157,29 @@ class ChattingRoomSegmentView: UIViewController {
             flex.addItem(underLine).width(view.frame.size.width / 2).height(2)
             flex.addItem(pageView.view)
         }
+        
+        rootFlexView.addSubview(bottomBar)
+        
+        bottomBar.flex.direction(.row).alignItems(.start).justifyContent(.spaceAround).paddingTop(16).define { bottomBar in
+            bottomBar.addItem(btn_download)
+            bottomBar.addItem(btn_share)
+            bottomBar.addItem(btn_delete)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        rootFlexView.pin.all(view.pin.safeArea)
+        rootFlexView.pin.left(view.pin.safeArea).right(view.pin.safeArea).top(view.pin.safeArea).bottom()
         rootFlexView.flex.layout()
         
         pageView.view.pin.below(of: underLine).bottom()
+        bottomBarSetHeight(height: 0)
+    }
+    
+    private func bottomBarSetHeight(height: CGFloat) {
+        bottomBar.pin.bottom().width(safeAreaWidth).height(height)
+        bottomBar.flex.layout()
     }
     
     @objc func segmentChanged() {
