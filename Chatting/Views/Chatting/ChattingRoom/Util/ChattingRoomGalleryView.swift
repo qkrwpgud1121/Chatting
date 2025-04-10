@@ -211,7 +211,6 @@ extension ChattingRoomGalleryView: UICollectionViewDataSource, UICollectionViewD
             self.present(galleryDetailVC, animated: true)
         } else {
             selectedImage.append(arr_GalleryImage[selectedImageIndex])
-            print("selected: \(selectedImage)")
         }
     }
     

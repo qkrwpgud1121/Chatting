@@ -129,6 +129,7 @@ class ChattingRoomSegmentView: UIViewController {
         
         btn_selectMode.addAction(UIAction { _ in
             self.selectMode.toggle()
+            
             if self.selectMode {
                 self.pageView.delegate = nil
                 self.pageView.dataSource = nil
@@ -136,12 +137,24 @@ class ChattingRoomSegmentView: UIViewController {
                 self.pageView.delegate = self
                 self.pageView.dataSource = self
             }
-            if let galleryVC = self.pageViewControllers.first as? ChattingRoomGalleryView {
-                galleryVC.viewSelectMode(mode: self.selectMode)
+            
+            if let currentVC = self.pageView.viewControllers?.first,
+               let currentIndex = self.pageViewControllers.firstIndex(of: currentVC) {
+                if currentIndex == 0 {
+                    if let galleryVC = self.pageViewControllers.first as? ChattingRoomGalleryView {
+                        galleryVC.viewSelectMode(mode: self.selectMode)
+                    }
+                } else {
+                    if let fileBoxVC = self.pageViewControllers.last as? ChattingRoomFileBoxView {
+                        fileBoxVC.viewSelectMode(mode: self.selectMode)
+                    }
+                }
             }
+            
             UIView.animate(withDuration: 0.3) {
                 self.bottomBarSetHeight(height: self.selectMode ? self.bottomBarHeight : 0)
             }
+            
         }, for: .touchUpInside)
         
         btn_download.addAction(UIAction { _ in

@@ -15,8 +15,9 @@ class ChattingRoomFileBoxView: UIViewController {
     
     let rootFlexView = UIView()
     
-    var arr_fileBox: [FileBoxModel] = []
+    var viewSelectMode: Bool = false
     
+    var arr_fileBox: [FileBoxModel] = []
     var fileGrouped: [String : [FileBoxModel]] = [:]
     
     private lazy var cv_fileBox: UICollectionView = {
@@ -26,6 +27,7 @@ class ChattingRoomFileBoxView: UIViewController {
         collectionView.dataSource = self
         collectionView.register(ChattingRoomCVHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ChattingRoomCVHeaderView.identifier)
         collectionView.register(ChattingRoomFileBoxCell.self, forCellWithReuseIdentifier: ChattingRoomFileBoxCell.identifier)
+        collectionView.allowsMultipleSelection = true
         return collectionView
     }()
     
@@ -49,10 +51,15 @@ class ChattingRoomFileBoxView: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        rootFlexView.pin.all(view.pin.safeArea)
+        rootFlexView.pin.all()
         rootFlexView.flex.layout()
         
         cv_fileBox.pin.all().marginHorizontal(16)
+    }
+    
+    func viewSelectMode(mode: Bool) {
+        viewSelectMode = mode
+        cv_fileBox.reloadData()
     }
     
     private func parsing() {
@@ -98,7 +105,7 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
         let name = files[indexPath.item].name
         let size = String(files[indexPath.item].size)
         
-        cell.configure(type: type, name: name, size: size)
+        cell.configure(type: type, name: name, size: size, selectMode: viewSelectMode)
         
         return cell
     }
@@ -118,6 +125,10 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Array(fileGrouped.keys).count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
 }
