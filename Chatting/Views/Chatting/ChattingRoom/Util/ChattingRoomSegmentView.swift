@@ -32,7 +32,7 @@ class ChattingRoomSegmentView: UIViewController {
     }()
     
     private lazy var btn_selectMode: UIButton = {
-        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "xmark"))
+        let button = UIButton(configuration: common.buttonConfig(pointSize: 15, image: "checkmark"))
         button.tintColor = .black
         return button
     }()
