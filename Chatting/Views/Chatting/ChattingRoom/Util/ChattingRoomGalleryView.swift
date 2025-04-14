@@ -17,6 +17,7 @@ class ChattingRoomGalleryView: UIViewController {
     
     var chatRoomName: String = ""
     var selectMode: Bool = false
+    
     var arr_GalleryImage: [GalleryImageModel] = []
     var groupedImages: [String: [GalleryImageModel]] = [:]
     var selectedImage: [GalleryImageModel] = []
@@ -104,7 +105,7 @@ class ChattingRoomGalleryView: UIViewController {
     }
     
     func downloadImage() {
-        print("download image")
+        print("download image: \(selectedImage)")
     }
     
     func shareImage() {

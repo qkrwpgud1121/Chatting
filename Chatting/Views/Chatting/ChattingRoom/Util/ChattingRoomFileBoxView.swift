@@ -19,6 +19,7 @@ class ChattingRoomFileBoxView: UIViewController {
     
     var arr_fileBox: [FileBoxModel] = []
     var fileGrouped: [String : [FileBoxModel]] = [:]
+    var selectedFiles: [FileBoxModel] = []
     
     private lazy var cv_fileBox: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -63,7 +64,7 @@ class ChattingRoomFileBoxView: UIViewController {
     }
     
     func downloadFile() {
-        print("download file")
+        print("download file: \(selectedFiles)")
     }
     
     func shareFile() {
@@ -93,6 +94,15 @@ class ChattingRoomFileBoxView: UIViewController {
                 fileGrouped[date] = files
             } else {
                 fileGrouped[date] = [file]
+            }
+        }
+        
+        arr_fileBox.removeAll()
+        
+        let dates = Array(fileGrouped.keys).sorted()
+        for date in dates {
+            if let images = fileGrouped[date] {
+                arr_fileBox.append(contentsOf: images)
             }
         }
     }
@@ -140,7 +150,33 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath)
+        
+        let dates = Array(fileGrouped.keys).sorted()
+        var totalIndex = 0
+        
+        for i in 0..<indexPath.section {
+            totalIndex += fileGrouped[dates[i]]?.count ?? 0
+        }
+        
+        let deSelectedFileIndex = totalIndex + indexPath.item
+        
+        selectedFiles.append(arr_fileBox[deSelectedFileIndex])
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
+        let dates = Array(fileGrouped.keys).sorted()
+        var totalIndex = 0
+        
+        for i in 0..<indexPath.section {
+            totalIndex += fileGrouped[dates[i]]?.count ?? 0
+        }
+        
+        let deSelectedFileIndex = totalIndex + indexPath.item
+        let deSelectedFile = arr_fileBox[deSelectedFileIndex]
+        
+        selectedFiles.removeAll { $0.url == deSelectedFile.url}
     }
     
 }
