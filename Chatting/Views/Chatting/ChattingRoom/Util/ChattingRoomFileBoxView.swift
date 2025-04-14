@@ -62,6 +62,18 @@ class ChattingRoomFileBoxView: UIViewController {
         cv_fileBox.reloadData()
     }
     
+    func downloadFile() {
+        print("download file")
+    }
+    
+    func shareFile() {
+        print("share file")
+    }
+    
+    func deleteFile() {
+        print("delete file")
+    }
+    
     private func parsing() {
         
         let url = Bundle.main.url(forResource: "FileBox", withExtension: "json")!
@@ -128,7 +140,7 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        print(indexPath)
     }
     
 }

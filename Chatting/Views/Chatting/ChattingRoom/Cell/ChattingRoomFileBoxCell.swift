@@ -134,7 +134,9 @@ class ChattingRoomFileBoxCell: UICollectionViewCell {
     
     func setDeselectedConfig() {
         
-        contentView.layer.borderWidth = 0
+        contentView.layer.borderColor = UIColor.systemGray4.cgColor
+        contentView.layer.borderWidth = 1
+        contentView.layer.cornerRadius = 5
         btn_select.backgroundColor = .white.withAlphaComponent(0.5)
         btn_select.setImage(nil, for: .normal)
     }

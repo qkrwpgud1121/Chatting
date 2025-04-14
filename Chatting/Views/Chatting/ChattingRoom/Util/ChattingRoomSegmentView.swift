@@ -14,11 +14,14 @@ class ChattingRoomSegmentView: UIViewController {
     
     let common = Common()
     let galleryView = ChattingRoomGalleryView()
+    let fileBoxView = ChattingRoomFileBoxView()
     
     private let rootFlexView = UIView()
     
     var chatRoomName: String = ""
     var selectMode: Bool = false
+    var currentPage: Int = 0
+    
     let safeAreaWidth = UIScreen.main.bounds.width
     lazy var bottomBarHeight: CGFloat = common.getBottomInsets() + 49
     
@@ -59,8 +62,8 @@ class ChattingRoomSegmentView: UIViewController {
     }()
     
     private lazy var pageViewControllers: [UIViewController] = {
-        let fileBox = ChattingRoomFileBoxView()
-        let gallery = ChattingRoomGalleryView()
+        let fileBox = fileBoxView
+        let gallery = galleryView
         gallery.chatRoomName = chatRoomName
         return [gallery, fileBox]
     }()
@@ -138,17 +141,10 @@ class ChattingRoomSegmentView: UIViewController {
                 self.pageView.dataSource = self
             }
             
-            if let currentVC = self.pageView.viewControllers?.first,
-               let currentIndex = self.pageViewControllers.firstIndex(of: currentVC) {
-                if currentIndex == 0 {
-                    if let galleryVC = self.pageViewControllers.first as? ChattingRoomGalleryView {
-                        galleryVC.viewSelectMode(mode: self.selectMode)
-                    }
-                } else {
-                    if let fileBoxVC = self.pageViewControllers.last as? ChattingRoomFileBoxView {
-                        fileBoxVC.viewSelectMode(mode: self.selectMode)
-                    }
-                }
+            if self.currentPage == 0 {
+                self.galleryView.viewSelectMode(mode: self.selectMode)
+            } else {
+                self.fileBoxView.viewSelectMode(mode: self.selectMode)
             }
             
             UIView.animate(withDuration: 0.3) {
@@ -158,16 +154,17 @@ class ChattingRoomSegmentView: UIViewController {
         }, for: .touchUpInside)
         
         btn_download.addAction(UIAction { _ in
-            self.galleryView.downloadImage()
+            self.currentPage == 0 ? self.galleryView.downloadImage() : self.fileBoxView.downloadFile()
         }, for: .touchUpInside)
         
         btn_share.addAction(UIAction { _ in
-            self.galleryView.shareImage()
+            self.currentPage == 0 ? self.galleryView.shareImage() : self.fileBoxView.shareFile()
         }, for: .touchUpInside)
         
         btn_delete.addAction(UIAction { _ in
-            self.makeAlert(title: "삭제", message: "삭제하시겠습니까?", confirmAction: { self.galleryView.deleteImage() })
-            
+            self.makeAlert(title: "삭제", message: "삭제하시겠습니까?", confirmAction: {
+                self.currentPage == 0 ? self.galleryView.deleteImage() : self.fileBoxView.deleteFile()
+            })
         }, for: .touchUpInside)
         
         initUI()
@@ -257,6 +254,7 @@ extension ChattingRoomSegmentView: UIPageViewControllerDataSource {
             if let currentViewController = pageViewController.viewControllers?.first {
                 if let index = pageViewControllers.firstIndex(of: currentViewController) {
                     self.segment.selectedSegmentIndex = index
+                    currentPage = index
                     segmentChaged(index: index)
                 }
             }
