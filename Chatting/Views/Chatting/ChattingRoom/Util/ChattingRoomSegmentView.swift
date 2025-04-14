@@ -136,9 +136,11 @@ class ChattingRoomSegmentView: UIViewController {
             if self.selectMode {
                 self.pageView.delegate = nil
                 self.pageView.dataSource = nil
+                self.segment.isEnabled = false
             } else {
                 self.pageView.delegate = self
                 self.pageView.dataSource = self
+                self.segment.isEnabled = true
             }
             
             if self.currentPage == 0 {
@@ -208,11 +210,12 @@ class ChattingRoomSegmentView: UIViewController {
     
     @objc func segmentChanged() {
         if !selectMode {
-            segmentChaged(index: segment.selectedSegmentIndex)
+            currentPage = segment.selectedSegmentIndex
+            segmentChange(index: segment.selectedSegmentIndex)
         }
     }
     
-    private func segmentChaged(index: Int) {
+    private func segmentChange(index: Int) {
         
         let underlineWidth = view.frame.size.width / 2
         let underlineXPosition = CGFloat(index) * underlineWidth
@@ -255,7 +258,7 @@ extension ChattingRoomSegmentView: UIPageViewControllerDataSource {
                 if let index = pageViewControllers.firstIndex(of: currentViewController) {
                     self.segment.selectedSegmentIndex = index
                     currentPage = index
-                    segmentChaged(index: index)
+                    segmentChange(index: index)
                 }
             }
         }
