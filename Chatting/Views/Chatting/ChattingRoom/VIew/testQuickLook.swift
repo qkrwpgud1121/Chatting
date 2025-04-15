@@ -39,19 +39,47 @@ class testQuickLook: UIViewController {
         }
         
         testButton.addAction(UIAction { _ in
-            
-            if let URL = URL(string: self.url) {
-                self.fileURL = URL
-            }
-            
-//            if let URL = Bundle.main.url(forResource: "은행여신거래기본약관(가계용)", withExtension: "pdf") {
-//                self.fileURL = URL
-//            }
-            
-            let preview = QLPreviewController()
-            preview.dataSource = self
-            self.present(preview, animated: true)
+            self.fileDownload()
         }, for: .touchUpInside)
+    }
+    
+    private func  fileDownload() {
+        guard let remoteURL = URL(string: url) else { return }
+        
+        let localPath = localPath(for: remoteURL)
+        
+        if FileManager.default.fileExists(atPath: localPath.path) {
+            presentQuickLook(url: localPath)
+            return
+        }
+        
+        let task = URLSession.shared.downloadTask(with: remoteURL) { downloadedUrl, response, error in
+            guard let downloadedUrl = downloadedUrl, error == nil else { return }
+            
+            do {
+                try FileManager.default.moveItem(at: downloadedUrl, to: localPath)
+                
+                DispatchQueue.main.async {
+                    self.presentQuickLook(url: localPath)
+                }
+            } catch {
+                print("실패: \(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    private func localPath(for remoteURL: URL) -> URL {
+        let fileName = remoteURL.lastPathComponent
+        let tempDir = FileManager.default.temporaryDirectory
+        return tempDir.appendingPathComponent(fileName)
+    }
+    
+    private func presentQuickLook(url: URL) {
+        self.fileURL = url
+        let preview = QLPreviewController()
+        preview.dataSource = self
+        self.present(preview, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
