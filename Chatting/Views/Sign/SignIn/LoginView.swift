@@ -313,10 +313,8 @@ class LoginView: UIViewController {
         }, for: .touchUpInside)
         
         btn_test.addAction(UIAction { _ in
-            let nextVC = ChattingRoomSegmentView()
-            let navigationController = UINavigationController(rootViewController: nextVC)
-            navigationController.modalPresentationStyle = .fullScreen
-            self.present(navigationController, animated: true)
+            let nextVC = testQuickLook()        
+            self.present(nextVC, animated: true)
         }, for: .touchUpInside)
         
     }
