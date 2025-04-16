@@ -102,6 +102,7 @@ class ChattingRoomGalleryView: UIViewController {
     func viewSelectMode(mode: Bool) {
         selectMode = mode
         cv_gallery.reloadData()
+        mode ? nil : selectedImage.removeAll()
     }
     
     func downloadImage() {

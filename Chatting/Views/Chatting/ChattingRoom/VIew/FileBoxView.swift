@@ -64,6 +64,7 @@ class ChattingRoomFileBoxView: UIViewController {
     func viewSelectMode(mode: Bool) {
         viewSelectMode = mode
         cv_fileBox.reloadData()
+        mode ? nil : selectedFiles.removeAll()
     }
     
     func downloadFile() {
@@ -206,7 +207,6 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
         let selectedFileIndex = totalIndex + indexPath.item
         
         if !viewSelectMode {
-            print(arr_fileBox[selectedFileIndex].url)
             fileQuickLook(title: arr_fileBox[selectedFileIndex].name, url: arr_fileBox[selectedFileIndex].url)
         } else {
             selectedFiles.append(arr_fileBox[selectedFileIndex])
