@@ -57,6 +57,7 @@
 			membershipExceptions = (
 				Common/CheckBox.swift,
 				Common/Common.swift,
+				Common/CustomPreviewItem.swift,
 				Common/Extensions.swift,
 				userjoin_personal_info.txt,
 				userjoin_provision.txt,
@@ -87,6 +88,7 @@
 			membershipExceptions = (
 				Common/CheckBox.swift,
 				Common/Common.swift,
+				Common/CustomPreviewItem.swift,
 				Common/Extensions.swift,
 				userjoin_personal_info.txt,
 				userjoin_provision.txt,

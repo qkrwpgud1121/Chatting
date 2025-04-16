@@ -8,6 +8,7 @@
 import UIKit
 import FlexLayout
 import PinLayout
+import QuickLook
 
 class ChattingRoomFileBoxView: UIViewController {
     
@@ -16,6 +17,8 @@ class ChattingRoomFileBoxView: UIViewController {
     let rootFlexView = UIView()
     
     var viewSelectMode: Bool = false
+    var previewItem: QLPreviewItem?
+    var fileURL: URL?
     
     var arr_fileBox: [FileBoxModel] = []
     var fileGrouped: [String : [FileBoxModel]] = [:]
@@ -73,6 +76,48 @@ class ChattingRoomFileBoxView: UIViewController {
     
     func deleteFile() {
         print("delete file")
+    }
+    
+    private func  fileQuickLook(title: String, url: String) {
+        guard let remoteURL = URL(string: url) else { return }
+        
+        let localPath = localPath(for: remoteURL)
+        
+        if FileManager.default.fileExists(atPath: localPath.path) {
+            presentQuickLook(title: title, url: localPath)
+            return
+        }
+        
+        let task = URLSession.shared.downloadTask(with: remoteURL) { downloadedUrl, response, error in
+            guard let downloadedUrl = downloadedUrl, error == nil else { return }
+            
+            do {
+                try FileManager.default.moveItem(at: downloadedUrl, to: localPath)
+                
+                DispatchQueue.main.async {
+                    self.presentQuickLook(title: title, url: localPath)
+                }
+            } catch {
+                print("실패: \(error)")
+            }
+        }
+        task.resume()
+    }
+    
+    private func localPath(for remoteURL: URL) -> URL {
+        let fileName = remoteURL.lastPathComponent
+        let tempDir = FileManager.default.temporaryDirectory
+        return tempDir.appendingPathComponent(fileName)
+    }
+    
+    private func presentQuickLook(title: String, url: URL) {
+        
+        self.previewItem = CustomPreviewItem(previewItemURL: url, previewItemTitle: title)
+        
+        let preview = QLPreviewController()
+        preview.delegate = self
+        preview.dataSource = self
+        self.present(preview, animated: true)
     }
     
     private func parsing() {
@@ -158,13 +203,20 @@ extension ChattingRoomFileBoxView: UICollectionViewDataSource, UICollectionViewD
             totalIndex += fileGrouped[dates[i]]?.count ?? 0
         }
         
-        let deSelectedFileIndex = totalIndex + indexPath.item
+        let selectedFileIndex = totalIndex + indexPath.item
         
-        selectedFiles.append(arr_fileBox[deSelectedFileIndex])
+        if !viewSelectMode {
+            print(arr_fileBox[selectedFileIndex].url)
+            fileQuickLook(title: arr_fileBox[selectedFileIndex].name, url: arr_fileBox[selectedFileIndex].url)
+        } else {
+            selectedFiles.append(arr_fileBox[selectedFileIndex])
+        }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        
+        guard viewSelectMode else { return }
         
         let dates = Array(fileGrouped.keys).sorted()
         var totalIndex = 0
@@ -195,4 +247,26 @@ extension ChattingRoomFileBoxView: UICollectionViewDelegateFlowLayout {
         let size = collectionView.frame.width / 2 - 4
         return CGSize(width: size, height: size)
     }
+}
+
+extension ChattingRoomFileBoxView: QLPreviewControllerDelegate {
+    
+    func previewControllerWillDismiss(_ controller: QLPreviewController) {
+        if let indexPath = cv_fileBox.indexPathsForSelectedItems?.first {
+            cv_fileBox.deselectItem(at: indexPath, animated: false)
+        }
+    }
+    
+}
+
+extension ChattingRoomFileBoxView: QLPreviewControllerDataSource {
+    
+    func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+        return previewItem == nil ? 0 : 1
+    }
+    
+    func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> any QLPreviewItem {
+        return previewItem!
+    }
+    
 }
