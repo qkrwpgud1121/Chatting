@@ -185,13 +185,13 @@ class LoginView: UIViewController {
         return button
     }()
     
-    private let btn_test: UIButton = {
-        let button = UIButton()
-        button.setTitle("Test", for: .normal)
-        button.layer.cornerRadius = 5
-        button.backgroundColor = .lightGray
-        return button
-    }()
+//    private let btn_test: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Test", for: .normal)
+//        button.layer.cornerRadius = 5
+//        button.backgroundColor = .lightGray
+//        return button
+//    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -247,7 +247,7 @@ class LoginView: UIViewController {
                 easyLogin.addItem(btn_googleLogin).size(60)
                 easyLogin.addItem(btn_appleLogin).size(60)
             }
-            flex.addItem(btn_test).height(46)
+//            flex.addItem(btn_test).height(46)
             
         }
         
@@ -312,12 +312,12 @@ class LoginView: UIViewController {
             self.appleLogin()
         }, for: .touchUpInside)
         
-        btn_test.addAction(UIAction { _ in
-            let nextVC = ChattingRoomSegmentView()
-            let navigationController = UINavigationController(rootViewController: nextVC)
-            navigationController.modalPresentationStyle = .fullScreen
-            self.present(navigationController, animated: true)
-        }, for: .touchUpInside)
+//        btn_test.addAction(UIAction { _ in
+//            let nextVC = ChattingRoomSegmentView()
+//            let navigationController = UINavigationController(rootViewController: nextVC)
+//            navigationController.modalPresentationStyle = .fullScreen
+//            self.present(navigationController, animated: true)
+//        }, for: .touchUpInside)
         
     }
     

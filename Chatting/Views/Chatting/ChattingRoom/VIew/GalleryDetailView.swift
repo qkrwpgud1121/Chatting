@@ -101,7 +101,7 @@ class ChattingRoomGalleryDetailView: UIViewController {
         }, for: .touchUpInside)
         
         btn_download.addAction(UIAction { _ in
-            
+            print(self.arr_GalleryImage[self.selectedImageIndex])
         }, for: .touchUpInside)
         
         btn_share.addAction(UIAction { _ in
@@ -205,6 +205,7 @@ extension ChattingRoomGalleryDetailView: UIScrollViewDelegate {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let page = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
+        selectedImageIndex = page
         senderName.text = arr_GalleryImage[page].senderName
         sendDate.text = arr_GalleryImage[page].date
     }
