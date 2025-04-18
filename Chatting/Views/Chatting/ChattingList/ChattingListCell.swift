@@ -14,6 +14,8 @@ class ChattingListCell: UITableViewCell {
     
     static let identifier = "ChattingListCell"
     
+    var count: Int = 0
+    
     let testView = UIView()
     
     var profileImage: UIImageView = {

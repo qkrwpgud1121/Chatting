@@ -192,8 +192,8 @@ extension ChattingListView: UITableViewDataSource, UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: ChattingListCell.identifier, for: indexPath) as! ChattingListCell
         
         let position = filteredChattingList.isEmpty ? chattingList[indexPath.row] : filteredChattingList[indexPath.row]
-        
-        cell.profileImage.image = UIImage(named: position.profileImage ?? "web-hoduchat_user_square")
+        print(position.profileImage.count)
+        //cell.profileImage.image = UIImage(named: position.profileImage ?? "web-hoduchat_user_square")
         cell.nameLabel.text = position.name
         cell.lastChatLable.text = position.lastChat
         cell.lastChatTimeLabel.text = position.lastChatTime
@@ -207,7 +207,7 @@ extension ChattingListView: UITableViewDataSource, UITableViewDelegate {
         
         let chattingRoomVC = ChattingRoomView()
         chattingRoomVC.chatRoomName = position.name
-        chattingRoomVC.proFileImage = position.profileImage ?? "web-hoduchat_user_square"
+        //chattingRoomVC.proFileImage = position.profileImage ?? "web-hoduchat_user_square"
         let navigationController = UINavigationController(rootViewController: chattingRoomVC)
         navigationController.modalPresentationStyle = .fullScreen
         self.present(navigationController, animated: true)

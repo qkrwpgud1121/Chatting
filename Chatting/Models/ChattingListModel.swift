@@ -12,7 +12,7 @@ struct ChattingListModel: Codable {
 }
 
 struct ChattingList: Codable {
-    let profileImage: String?
+    let profileImage: [String?]
     let name: String
     let lastChat: String
     let lastChatTime: String
